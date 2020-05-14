@@ -31,4 +31,5 @@ class FilmModel extends Model
     public function dohvatiFilm($id) {
         return $this->where('FilmID', $id)->findAll();
     }
+
 }

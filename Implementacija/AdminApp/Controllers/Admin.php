@@ -37,8 +37,8 @@ class Admin extends BaseController
         return redirect()->to(site_url('/'));
     }
 
-    public function makeSchedule($poruka = null) {
-        $this->prikaz('makeSchedule', ['poruka'=>$poruka]);
+    public function makeSchedule($poruka = null,$termini=null) {
+        $this->prikaz('makeSchedule', ['poruka'=>$poruka,'termini'=>$termini]);
     }
     
     public function loginSubmit() {
@@ -169,6 +169,8 @@ class Admin extends BaseController
     }
 
     public function insertMovieSubmit() {
+
+      
         if(!$this->validate([
             'datum' => 'required',
             'vreme' => 'required',
@@ -241,9 +243,52 @@ class Admin extends BaseController
             'Cena' => $cena
         ];
 
-        $terminModel->insert($data);
+        //ovo sluzi da bi prikazao tab sale u koji je film dodat
+        $_POST['SalaID']=$data['SalaID'];
 
-        return redirect()->to(site_url("Admin/makeSchedule"));
+        if($terminModel->proveriValidnostTermina($data['Datum'],$data['SalaID'],$data['PocetakTermina'])==0){
+            $terminModel->insert($data);
+            $this->prikazMakeSchedule("Termin je uspesno dodat.");
+        }else{
+            $this->prikazMakeSchedule("Termin je zauzet!");
+        }
     }
-	//--------------------------------------------------------------------
+
+    /**
+    *fja koja treba na osnovu datum da dovuce postojece termine
+    *koristim je da bi cim korisnik unese datum mogao da vidi 
+    *do sada napravljeni raspored po salama 
+    */
+    public function dovuciTermineZaDatum(){
+        $terminModel = new TerminModel();
+        $datum=$_POST['datum'];
+        $podaci['termini']=$terminModel->dohvatiTerminePoDatumu($datum);
+        return $this->prikaz('makeSchedule', ['poruka'=>"",'termini'=>$podaci['termini'],'datum'=>$_POST['datum']]);
+    }
+
+    public function deleteTermin(){
+        $idTermina=$_POST['deleteTermin'];
+        $terminModel = new TerminModel();
+
+        $termin=$terminModel->find($idTermina);
+        $_POST['SalaID'] = $termin->SalaID;
+
+        //brisem termin
+        $terminModel->where('TerminID', $idTermina)->delete();
+
+        $this->prikazMakeSchedule("Termin je uspesno obrisan.");  
+    }
+
+    protected function prikazMakeSchedule($poruka=null)
+    {
+        $terminModel = new TerminModel();
+
+        //dohvata termine za datum
+        $data['termini']=$terminModel->dohvatiTerminePoDatumu($_POST['datum']);
+        $data['poruka']=$poruka;
+
+        $data['controller'] = 'Admin';
+        echo view("/pages/makeSchedule", $data);
+    }
+
 }
