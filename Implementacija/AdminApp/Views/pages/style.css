@@ -1,0 +1,31 @@
+#logout {
+    float: right;
+}
+
+.container .box {
+    display:table; 
+}
+
+.container .box .box-row { 
+    display:table-row; 
+} 
+
+.container .box .box-cell { 
+    display:table-cell; 
+    width:50%; 
+    padding:10px; 
+}
+
+table.sch {
+    width: 600px;
+    border: 1px solid black;
+}
+
+td.sch, th.sch {
+    height: 20px;
+    border: 1px solid black;
+}
+
+#table2 {
+    border-collapse: collapse;
+}
