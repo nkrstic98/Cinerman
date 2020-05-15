@@ -46,8 +46,6 @@
         <title>Cinerman Admin</title>
 
         <style>
-            body {font-family: Arial;}
-
             /* Style the tab */
             .tab {
                 overflow: hidden;
@@ -199,7 +197,6 @@
                             <?php if(isset($poruka)) echo "<p><font color='red'>$poruka</font></p>"; ?>
                             <hr>
                             <div class="form-group">
-                                
                                 <table >
                                     <tr>
                                         <td class="p-4">Vreme pocetka filma</td>
@@ -228,15 +225,12 @@
                                         </td>
                                     </tr>
                                 </table>
-                               
-                                
-                                
                             </div>
                             <div class="form-group">
                                 <?php Admin::listaFilmova(); ?>
                             </div>
                             <div class="form-group">
-                                <select name="sala" id="salaId" class="custom-select">
+                                <select name="sala" id="salaId" class="custom-select" value="<?= set_value('sala')?>">
                                     <option value="-1">Izaberite salu</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>

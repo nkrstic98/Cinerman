@@ -226,7 +226,7 @@ class Admin extends BaseController
 
         $time = strtotime("+10 minutes", $time);
         
-        $cena = $this->formirajCenu($start_time, $end_time);
+        $cena = $this->formirajCenu($start_time, $end_time, $trajanje);
 
         $data = [
             'FilmID' => $_POST['mov'],
@@ -299,6 +299,7 @@ class Admin extends BaseController
         $data['termini']=$terminModel->dohvatiTerminePoDatumu($this->date);
         $data['poruka']=$poruka;
         $data['SalaID']=$_POST['SalaID'];
+        $data['datum']=$this->date;
 
         $data['controller'] = 'Admin';
         echo view ("templates/header.php");
@@ -332,7 +333,7 @@ class Admin extends BaseController
      */
     public static function listaFilmova() {
 
-        echo "<select name='mov' id='movies' class='custom-select mr-sm-2'>";
+        echo "<select name='mov' id='movies' class='custom-select mr-sm-2' value='<?= set_value('mov')?>'>";
         echo "<option value='-1'>Izaberite film</option>";
                                     
         $fModel = new FilmModel();
@@ -352,7 +353,7 @@ class Admin extends BaseController
      * 
      * @return int
      */
-    public function formirajCenu($start_time, $end_time) {
+    public function formirajCenu($start_time, $end_time, $trajanje) {
         if(strtotime($start_time) < strtotime("17:00:00")) {
             $cena = 300;
         }
