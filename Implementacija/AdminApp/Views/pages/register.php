@@ -1,101 +1,95 @@
+<!--
+    Nikola Krstic 2017/0265
+-->
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Cinerman</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-        <style>
-            #logout {
-                float: right;
-            }
-        </style>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+        <title>Cinerman Admin</title>
+
+        <script>
+            // Disable form submissions if there are invalid fields
+            (function() {
+                   window.addEventListener('load', function() {
+                    // Get the forms we want to add validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+        </script>
+
     </head>
     <body>
-        <div class="header">
-            <h1>Cinerman</h1>
-            <a href="<?= site_url("Admin/logout") ?>" id="logout">Log out</a>
-        </div>
-
-        <div class="topnav">
-            <a href="<?= site_url("Admin/register") ?>">Registracija novog korisninka</a>
-            <a href="<?= site_url("Admin/delete") ?>">Uklanjanje zaposlenog iz sistema</a>
-            <a href="<?= site_url("Admin/addMovie") ?>">Dodavanje novog filma u bazu</a>
-            <a href="<?= site_url("Admin/makeSchedule") ?>">Pravljenje repertoara</a>
-        </div>
-
-        <div>
-            <p>Dobrodosli na stranicu za registraciju</p>
-        </div>
-
-        <div>
-            <?php if(isset($poruka)) echo "<font color='red'>$poruka</font><br>"; ?>
-            <form name="registerForm" action="<?= site_url("Admin/registerSubmit") ?>" method="post">
-                <table id="t">
-                    <tr>
-                        <td>Ime: </td>
-                        <td><input type="text" name="ime" value="<?= set_value('ime') ?>"></td>
-                        <td>
-                            <font color='red'>
-                                <?php 
-                                    if(!empty($errors['ime']))
-                                        echo "Ime ne sme biti prazno polje";
-                                ?>
-                            </font>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Prezime: </td>
-                        <td><input type="text" name="prez" value="<?= set_value('prez') ?>"></td>
-                        <td>
-                            <font color='red'>
-                                <?php 
-                                    if(!empty($errors['prez']))
-                                        echo "Prezime ne sme biti prazno polje";
-                                ?>
-                            </font>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Korisnicko ime: </td>
-                        <td><input type="text" name="user"></td>
-                        <td>
-                            <font color='red'>
-                                <?php 
-                                    if(!empty($errors['user']))
-                                        echo "Koriscnicko ime ne sme biti prazno polje";
-                                ?>
-                            </font>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password: </td>
-                        <td><input type="password" name="pass"></td>
-                        <td>
-                            <font color="red">
-                                <?php
-                                    if(!empty($errors["pass"]))
-                                        echo "Lozinka ne sme biti prazno polje";
-                                ?>
-                            </font>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Privilegija</td>
-                        <td>
-                            <input type="checkbox" id="priv" name="priv" value="1">
-                            <label for="priv">Admin</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"><button type="submit">Register</button></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-
-        <div class="footer">
-            <p>&copy; Cinerman Adimin App</p>
+        <div class="container-fluid bg-dark">
+            <div class="row vh-100">
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <nav class="navbar text-center">
+                        <ul class="navbar-nav">
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/register") ?>" class="btn btn-light btn-block" role="button">Registracija zaposlenih</a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/delete") ?>" class="btn btn-light btn-block" role="button">Uklanjanje zaposlenih</a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/addMovie") ?>" class="btn btn-light btn-block" role="button">Dodavanje filma</a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/makeSchedule") ?>" class="btn btn-light btn-block" role="button">Pravljenje repertoara</a> 
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+                <div class="col-sm-10 d-flex justify-content-center align-items-center bg-white text-center">
+                    <div class="shadow-lg p-4 mb-4 bg-ligt">
+                        <?php if(isset($poruka)) { echo "<p><font color='red'>$poruka</font></p>"; } ?>
+                        <form name="registerForm" action="<?= site_url("Admin/registerSubmit") ?>" method="post" class="needs-validation" novalidate style="width:400px">
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="name" placeholder="Ime" name="name" required value="<?= set_value('name') ?>">
+                                <div class="invalid-feedback text-sm-left">Ime ne sme biti prazno polje</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="lname" placeholder="Prezime" name="lname" required value="<?= set_value('lname') ?>">
+                                <div class="invalid-feedback text-sm-left">Prezime ne sme biti prazno polje</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="uname" placeholder="Korisnicko ime" name="uname" required>
+                                <div class="invalid-feedback text-sm-left">Korisnicko ime ne sme biti prazno polje</div>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="pswd" placeholder="Loznika" name="pswd" required>
+                                <div class="invalid-feedback text-sm-left">Lozinka ne sme biti prazno polje</div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck" name="priv">
+                                    <label class="custom-control-label" for="customCheck">Admin</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Registruj</button>
+                        </form>
+                    </div>
+                </div>
+            </div>      
         </div>
     </body>
 </html>

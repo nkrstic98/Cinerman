@@ -1,77 +1,116 @@
 <?php namespace App\Controllers;
 
-use App\Models\AdminModel;
+use App\Models\ZaposleniModel;
 use App\Models\FilmModel;
 use App\Models\TerminModel;
 
+/**
+ * Nikola Krstic 2017/0265
+ * Ivan Rakonjac 2017/0656
+ * 
+ * Admin - klasa za rad ulogovanog korisnika
+ * 
+ * @version 2
+ */
 class Admin extends BaseController
 {
-    protected function prikaz($page, $data)
-    {
+    /**
+     * @var string $date Datum za prikazivanje stanja sala na stranici Pravljenje repertoara
+     */
+    public $date;
+
+    /**
+     * Funkcija koja se poziva da bi se iscratao odredjeni View
+     * 
+     * @param $page - View koji treba da se pozove
+     * @param $data - niz podataka koji se prosledjuju View-u
+     * 
+     * @return void
+     */
+    protected function prikaz($page, $data) {
         $data['controller'] = 'Admin';
+        if(strcmp($page, 'index') != 0) echo view ("templates/header.php");
         echo view("/pages/$page", $data);
-    }
-   
-    public function index($poruka = null) {
-        $this->prikaz('index', ['poruka'=>$poruka]);
+        echo view ("templates/footer.php");
     }
 
+    /**
+     * Funkcija koja sluzi za prikaz View-a welcome
+     * 
+     * @return void
+     */
     public function welcome() {
-        return view("pages/welcome.php");
+        $this->prikaz('welcome', []);
     }
 
+    /**
+     * Funkcija koja sluzi za prikaz View-a register
+     * 
+     * @param $poruka - poruka greske koja se prikazuje (opcioni parametar)
+     * 
+     * @return void
+     */
     public function register($poruka = null) {
         $this->prikaz('register', ['poruka'=>$poruka]);
     }
 
+     /**
+     * Funkcija koja sluzi za prikaz View-a delete
+     * 
+     * @param $poruka - poruka greske koja se prikazuje (opcioni parametar)
+     * 
+     * @return void
+     */
     public function delete($poruka = null) {
         $this->prikaz('delete', ['poruka'=>$poruka]);
     }
 
+     /**
+     * Funkcija koja sluzi za prikaz View-a addMovie
+     * 
+     * @param $poruka - poruka greske koja se prikazuje (opcioni parametar)
+     * 
+     * @return void
+     */
     public function addMovie($poruka = null) {
         $this->prikaz('addMovie', ['poruka'=>$poruka]);
     }
 
+     /**
+     * Funkcija koja sluzi za prikaz View-a makeSchedule
+     * 
+     * @param $poruka - poruka greske koja se prikazuje (opcioni parametar)
+     * @param $termini - niz termina za odredjeni datum
+     * 
+     * @return void
+     */
+    public function makeSchedule($poruka = null,$termini=null) {
+        $_POST['SalaID'] = 0;
+        $this->prikaz('makeSchedule', ['poruka'=>$poruka,'termini'=>$termini]);
+    }
+
+     /**
+     * Funkcija koja se poziva kada korisnik zeli da se izloguje
+     * 
+     * @return Response
+     */
     public function logout() {
         $this->session->destroy();
         return redirect()->to(site_url('/'));
     }
 
-    public function makeSchedule($poruka = null,$termini=null) {
-        $this->prikaz('makeSchedule', ['poruka'=>$poruka,'termini'=>$termini]);
-    }
-    
-    public function loginSubmit() {
-        if(!$this->validate(['KorisnickoIme'=>'required', 'Lozinka'=>'required'])) {
-            return $this->prikaz('index', ['errors'=>$this->validator->getErrors()]);
-        }
-        $adminModel = new AdminModel();
-        $admin = $adminModel->where('KorisnickoIme', $_POST['KorisnickoIme'])->findAll();
-        if($admin == null) {
-            return $this->index("Korisnik ne postoji");
-        }
-        if($admin[0]->Lozinka != $this->request->getVar('Lozinka')) {
-            return $this->index("Pogresna lozinka");
-        }
-        
-        if($admin[0]->Privilegije == 0) {
-            return $this->index("Ne mozete se ulogovati, nemate privilegije admina");
-        }
-        
-        $this->session->set('adminUser', $admin[0]->KorisnickoIme);
-        $this->session->set('adminPass', $admin[0]->Lozinka);
-        return redirect()->to(site_url('Admin/welcome'));
-    }
+    //--------------------------------------------------------------------
 
+    /**
+     * Funkcija koja se poziva kada korisnik submituje podatke novog korisnika
+     * 
+     * @return Response
+     */
     public function registerSubmit() {
-        if(!$this->validate(['ime'=>'required', 'prez'=>'required', 'user'=>'required', 'pass'=>'required'])) {
-            return $this->prikaz('register', ['errors'=>$this->validator->getErrors()]);
-        }
+        $novi = new ZaposleniModel();
 
-        $noviKorisnik = new AdminModel();
-        
-        if(($noviKorisnik->where('KorisnickoIme', $_POST['user'])->findAll()) != null) {
-            return $this->register("U bazi postoji korisnik sa unetim korisnickim imenom");
+        if(($novi->where('KorisnickoIme', $this->request->getVar('uname'))->first()) != null) {
+            return $this->register("Korisnicko ime vec postoji, izaberite neko drugo");
         }
 
         if(isset($_POST["priv"])) {
@@ -81,75 +120,63 @@ class Admin extends BaseController
             $priv = 0;
         }
 
-
         $data = [
-            'Ime' => $_POST["ime"],
-            'Prezime' => $_POST["prez"],
-            'KorisnickoIme' => $_POST["user"],
-            'Lozinka' => $_POST["pass"],
+            'Ime' => $_POST["name"],
+            'Prezime' => $_POST["lname"],
+            'KorisnickoIme' => $_POST["uname"],
+            'Lozinka' => $_POST["pswd"],
             'Privilegije' => $priv
         ];
 
-        $noviKorisnik->insert($data);
+        $novi->insert($data);
 
         return redirect()->to(site_url("Admin/register"));
     }
 
+    /**
+     * Funkcija koja se poziva kada admin brise korisnika iz sistema
+     * 
+     * @return Response
+     */
     public function deleteSubmit() {
-        if(!$this->validate(['user'=>'required'])) {
-            return $this->prikaz('delete', ['errors'=>$this->validator->getErrors()]);
-        }
-        $adminModel = new AdminModel();
-        $korisnik = $adminModel->where('KorisnickoIme', $_POST['user'])->findAll();
-        if($korisnik == null) {
-            return $this->delete("Korisnik koga pokusavate da obrisete, ne postoji");
+        if($this->request->getVar('zaposleni') == -1) {
+            return $this->delete("Odaberite zaposlenog pre pokusaja brisanja");
         }
 
-        if($_POST['user'] == $this->session->get('adminUser')) {
+        $zModel = new ZaposleniModel();
+
+        $zaposleni = $zModel->where('ZaposleniID', $this->request->getVar('zaposleni'))->first();
+
+        if($zaposleni->KorisnickoIme == $this->session->get('adminUser')) {
             return $this->delete("Ne mozete obrisati sebe iz baze");
         }
 
-        $adminModel->where('ZaposleniID', $korisnik[0]->ZaposleniID)->delete();
+        $zModel->where('ZaposleniID', $zaposleni->ZaposleniID)->delete();
 
         return redirect()->to(site_url('Admin/delete'));
     }
 
-    public function addMovieSubmit() {
-        if(!$this->validate([
-            'naziv' => 'required',
-            'zanr' => 'required',
-            'traj' => 'required',
-            'prem' => 'required',
-            'poc' => 'required',
-            'kraj' => 'required',
-            'red' => 'required',
-            'uloge' => 'required',
-            'slika' => 'required',
-        ])) {
-            return $this->prikaz('addMovie', ['errors'=>$this->validator->getErrors()]);
+    /**
+     * Funkcija koja se poziva kada korisnik dodaje novi film u sistem
+     * 
+     * @return Response
+     */
+    public function movieSubmit() {
+        $fModel = new FilmModel();
+
+        if(($fModel->where('Naziv', $this->request->getVar('naziv'))->findAll()) != null) {
+            return $this->addMovie("Postoji film sa unetim imenom");
         }
 
-        $film = new FilmModel();
-
-        if(($film->where('Naziv', $_POST['naziv'])->findAll()) != null) {
-            return $this->addMovie("U bazi postoji film sa unetim imenom");
-        }
-        
-        if($_POST['traj'] <= 0) {
+        if($this->request->getVar('traj') <= 0) {
             return $this->addMovie("Trajanje filma mora biti vece od 0");
         }
 
-        if($_POST['poc'] > $_POST['kraj']) {
-            return $this->addMovie("Pogresno uneseno vreme pocetka i/ili trajanja");
+        if($this->request->getVar('poc') > $this->request->getVar('kraj')) {
+            return $this->addMovie("Pogresno uneseno vreme pocetka i/ili kraja prikazivanja");
         }
 
-        $slika = '<img src="' . $_POST['slika'] . '" alt="' . $_POST['naziv'] . '">'; 
-
-        $maxId = $film->orderBy('FilmID', 'desc')->first();
-        $id = $maxId->FilmID;
-
         $data = [
-            'FilmID' => $id + 1,
             'Naziv' => $_POST['naziv'],
             'OriginalniNaziv' => $_POST['onaziv'],
             'Zanr' => $_POST['zanr'],
@@ -160,27 +187,29 @@ class Admin extends BaseController
             'Reditelj' => $_POST['red'],
             'Uloge' => $_POST['uloge'],
             'Opis' => $_POST['opis'],
-            'Slika' => $slika
+            'Slika' => $_POST['slika']
         ];
 
-        $film->insert($data);
+        $fModel->insert($data);
 
         return redirect()->to(site_url("Admin/addMovie"));
     }
 
-    public function insertMovieSubmit() {
-
-      
-        if(!$this->validate([
-            'datum' => 'required',
-            'vreme' => 'required',
-            'mov' => 'required',
-            'sala' => 'required',
-        ])) {
-            return $this->prikaz('makeSchedule', ['errors'=>$this->validator->getErrors()]);
+    /**
+     * Funkcija koja se poziva kada korisnik pravi novi termin filma
+     * 
+     * @return Response
+     */
+    public function scheduleSubmit() {
+        if($this->request->getVar('mov') == -1) {
+            return $this->makeSchedule("Odaberite film koji zelite da stavite u repertoar");
         }
 
-        $time = $_POST['vreme'];
+        if($this->request->getVar('sala') == -1) {
+            return $this->makeSchedule("Izaberite salu u kojoj zelite da prikazujete film");
+        }
+
+        $time = $_POST['sat'] . ":" . $_POST['min'];
 
         $time = strtotime($time);
         $start_time = date("H:i:s", $time);
@@ -196,15 +225,134 @@ class Admin extends BaseController
         $end_time = date("H:i:s", $time);
 
         $time = strtotime("+10 minutes", $time);
+        
+        $cena = $this->formirajCenu($start_time, $end_time);
+
+        $data = [
+            'FilmID' => $_POST['mov'],
+            'SalaID' => $_POST['sala'],
+            'Datum' => $_POST['datum'],
+            'PocetakTermina' => $start_time,
+            'KrajTermina' => $end_time,
+            'Cena' => $cena
+        ];
 
         $terminModel = new TerminModel();
 
-        $maxId = $terminModel->orderBy('TerminID', 'desc')->findAll();
+        //ovo sluzi da bi prikazao tab sale u koji je film dodat
+        $_POST['SalaID']=$data['SalaID'];
 
-        $id = $maxId[0]->TerminID;
+        $this->date = $_POST['datum'];
 
-        $cena = 0;
+        if($terminModel->proveriValidnostTermina($data['Datum'],$data['SalaID'],$data['PocetakTermina'])==0){
+            $terminModel->insert($data);
+            $this->prikazMakeSchedule("Termin je uspesno dodat.");
+        }else{
+            $this->prikazMakeSchedule("Termin je zauzet!");
+        }
+    }
 
+    /**
+     * fja koja treba na osnovu datum da dovuce postojece termine
+     * koristim je da bi cim korisnik unese datum mogao da vidi 
+     * do sada napravljeni raspored po salama
+     * 
+     * @return Response
+     */
+    public function dovuciTermineZaDatum(){
+        $this->date = $_POST['datum'];
+        $_POST['SalaID'] = 0;
+        $terminModel = new TerminModel();
+        $datum=$_POST['datum'];
+        $podaci['termini']=$terminModel->dohvatiTerminePoDatumu($datum);
+        return $this->prikaz('makeSchedule', ['poruka'=>"",'termini'=>$podaci['termini'],'datum'=>$_POST['datum']]);
+    }
+
+    /**
+     * Funkcija koja sluzi za brisanje odredjenjog termina
+     * 
+     * @return void
+     */
+    public function deleteTermin(){
+        $idTermina=$_POST['deleteTermin'];
+        $terminModel = new TerminModel();
+
+        $termin=$terminModel->find($idTermina);
+        $_POST['SalaID'] = $termin->SalaID;
+
+        //brisem termin
+        $terminModel->where('TerminID', $idTermina)->delete();
+
+        $this->prikazMakeSchedule("Termin je uspesno obrisan.");  
+    }
+
+    /**
+     * Funkcija koja sluzi za ispis View-a repertoara
+     * 
+     * @return void
+     */
+    protected function prikazMakeSchedule($poruka=null)
+    {
+        $terminModel = new TerminModel();
+
+        //dohvata termine za datum
+        $data['termini']=$terminModel->dohvatiTerminePoDatumu($this->date);
+        $data['poruka']=$poruka;
+        $data['SalaID']=$_POST['SalaID'];
+
+        $data['controller'] = 'Admin';
+        echo view ("templates/header.php");
+        echo view("/pages/makeSchedule", $data);
+        echo view ("templates/footer.php");
+    }
+
+    //------------------------------------------------------------------------------
+    //Pomocne funkcije
+
+    /**
+     * Pomocna funkcija za iscrtavanje HTML select komponente
+     * Sluzi za prikaz svih zaposlenih
+     * Koristi se kada se zaposleni brise iz baze
+     */
+    public static function listaZaposlenih() {
+
+        echo "<select name='zaposleni' class='custom-select mr-sm-2'>";
+        echo "<option value='-1'>Izaberite zaposlenog kog zelite da izbrisete</option>";
+                                    
+        $zModel = new ZaposleniModel();
+        $zaposleni = $zModel->dohvatiZaposlene();
+        foreach($zaposleni as $zap) {
+            echo "<option value='{$zap->ZaposleniID}'>{$zap->Ime} {$zap->Prezime} - {$zap->KorisnickoIme}</option>";
+        }
+        echo "</select>";
+    }
+
+    /**
+     * Funkcija koja ispisuje listu scih filmova na HTML stranici
+     */
+    public static function listaFilmova() {
+
+        echo "<select name='mov' id='movies' class='custom-select mr-sm-2'>";
+        echo "<option value='-1'>Izaberite film</option>";
+                                    
+        $fModel = new FilmModel();
+        $filmovi = $fModel->dohvatiFilmove();
+        foreach($filmovi as $film) {
+            echo "<option value='{$film->FilmID}'>{$film->Naziv} - {$film->Trajanje}</option>";
+        }
+        echo "</select>";
+    }
+
+    /**
+     * Kada se novi film dodaje na repertoar, formira mu se cena
+     * Pomocna funkcija za formiranje cene filma
+     * 
+     * @param $start_time - vreme pocetka filma
+     * @param $end_time - vreme zavrsetka filma
+     * 
+     * @return int
+     */
+    public function formirajCenu($start_time, $end_time) {
         if(strtotime($start_time) < strtotime("17:00:00")) {
             $cena = 300;
         }
@@ -233,62 +381,6 @@ class Admin extends BaseController
             $cena -= 30;
         }
 
-        $data = [
-            'TerminID' => $id + 1,
-            'FilmID' => $_POST['mov'],
-            'SalaID' => $_POST['sala'],
-            'Datum' => $_POST['datum'],
-            'PocetakTermina' => $start_time,
-            'KrajTermina' => $end_time,
-            'Cena' => $cena
-        ];
-
-        //ovo sluzi da bi prikazao tab sale u koji je film dodat
-        $_POST['SalaID']=$data['SalaID'];
-
-        if($terminModel->proveriValidnostTermina($data['Datum'],$data['SalaID'],$data['PocetakTermina'])==0){
-            $terminModel->insert($data);
-            $this->prikazMakeSchedule("Termin je uspesno dodat.");
-        }else{
-            $this->prikazMakeSchedule("Termin je zauzet!");
-        }
+        return $cena;
     }
-
-    /**
-    *fja koja treba na osnovu datum da dovuce postojece termine
-    *koristim je da bi cim korisnik unese datum mogao da vidi 
-    *do sada napravljeni raspored po salama 
-    */
-    public function dovuciTermineZaDatum(){
-        $terminModel = new TerminModel();
-        $datum=$_POST['datum'];
-        $podaci['termini']=$terminModel->dohvatiTerminePoDatumu($datum);
-        return $this->prikaz('makeSchedule', ['poruka'=>"",'termini'=>$podaci['termini'],'datum'=>$_POST['datum']]);
-    }
-
-    public function deleteTermin(){
-        $idTermina=$_POST['deleteTermin'];
-        $terminModel = new TerminModel();
-
-        $termin=$terminModel->find($idTermina);
-        $_POST['SalaID'] = $termin->SalaID;
-
-        //brisem termin
-        $terminModel->where('TerminID', $idTermina)->delete();
-
-        $this->prikazMakeSchedule("Termin je uspesno obrisan.");  
-    }
-
-    protected function prikazMakeSchedule($poruka=null)
-    {
-        $terminModel = new TerminModel();
-
-        //dohvata termine za datum
-        $data['termini']=$terminModel->dohvatiTerminePoDatumu($_POST['datum']);
-        $data['poruka']=$poruka;
-
-        $data['controller'] = 'Admin';
-        echo view("/pages/makeSchedule", $data);
-    }
-
 }

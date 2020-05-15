@@ -1,8 +1,10 @@
-<?php
-    use App\Models\FilmModel;
+<!--
+    Ivan Rakonjac 2017/0656
+-->
+<?php 
+    use App\Models\FilmModel; 
+    use App\Controllers\Admin;
 ?>
-
-<?php if($_POST['SalaID']!=null){ $salaID=$_POST['SalaID'];} ?>
 
 <?php 
     function iscrtajTabelu($termini,$sala){
@@ -14,84 +16,47 @@
                 if($row->SalaID==$sala){
                     $brojac=$brojac+1;
                     echo "<tr>";
-                    echo "<th scope=row>$brojac</th>";
-                    echo "<td>$row->PocetakTermina</td>";
-                    echo "<td>$row->KrajTermina</td>";
-                    echo "<td>$row->Naziv</td>";
-                    echo "<td>$row->Datum</td>";
+                    echo "<th scope=row class='align-middle'>$brojac</th>";
+                    echo "<td class='align-middle'>$row->PocetakTermina</td>";
+                    echo "<td class='align-middle'>$row->KrajTermina</td>";
+                    echo "<td class='align-middle'>$row->Naziv</td>";
+                    echo "<td class='align-middle'>$row->Datum</td>";
                     echo "<td><button class=\"btn btn-danger\" name=deleteTermin type=submit value=$row->TerminID formaction=deleteTermin>&times;</button></td>";
                     echo "</tr>";
                 }
             }
         }
-        else{
-            echo "<tr><td colspan=3>Admine napravi mi raspored za danas!</tr></tr>";
-        }
     };
 ?>
 
-
 <!DOCTYPE html>
-    <html lang="en">
-        <head>
-            <meta charset="UTF-8">
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+        <!-- jQuery library -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!-- Popper JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <!-- Latest compiled JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-            <script src="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.js"></script>
-            <link href="https://cdn.jsdelivr.net/timepicker.js/latest/timepicker.min.css" rel="stylesheet"/>
+        <title>Cinerman Admin</title>
 
-            <meta name="viewport" content="width=device-width, initial-scale=1">
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <style>
+            body {font-family: Arial;}
 
-
-            <title>Cinerman</title>
-            
-            <style>
-                #logout {
-                    float: right;
-                }
-
-                .container .box {
-                    display:table; 
-                }
-
-                .container .box .box-row { 
-                    display:table-row; 
-                } 
-
-                .container .box .box-cell { 
-                    display:table-cell; 
-                    width:50%; 
-                    padding:10px; 
-                }
-
-                table.sch {
-                    width: 600px;
-                    border: 1px solid black;
-                }
-
-                td.sch, th.sch {
-                    height: 20px;
-                    border: 1px solid black;
-                }
-
-                #table2 {
-                    border-collapse: collapse;
-                }
-
-                body {font-family: Arial;}
-
-                /* Style the tab */
-                .tab {
+            /* Style the tab */
+            .tab {
                 overflow: hidden;
                 border: 1px solid #ccc;
                 background-color: #f1f1f1;
-                }
+            }
 
-                /* Style the buttons inside the tab */
-                .tab button {
+            /* Style the buttons inside the tab */
+            .tab button {
                 background-color: inherit;
                 float: left;
                 border: none;
@@ -100,192 +65,193 @@
                 padding: 14px 16px;
                 transition: 0.3s;
                 font-size: 17px;
-                }
+            }
 
-                /* Change background color of buttons on hover */
-                .tab button:hover {
+            /* Change background color of buttons on hover */
+            .tab button:hover {
                 background-color: #ddd;
-                }
+            }
 
-                /* Create an active/current tablink class */
-                .tab button.active {
+            /* Create an active/current tablink class */
+            .tab button.active {
                 background-color: #ccc;
-                }
+            }
 
-                /* Style the tab content */
-                .tabcontent {
+            /* Style the tab content */
+            .tabcontent {
                 display: none;
                 padding: 6px 12px;
                 border: 1px solid #ccc;
                 border-top: none;
+            }
+
+            .xDugme{
+                color:red;
+            }
+        </style>
+
+        <script>
+            // Disable form submissions if there are invalid fields
+            (function() {
+                   window.addEventListener('load', function() {
+                    // Get the forms we want to add validation styles to
+                    var forms = document.getElementsByClassName('needs-validation');
+                    // Loop over them and prevent submission
+                    var validation = Array.prototype.filter.call(forms, function(form) {
+                        form.addEventListener('submit', function(event) {
+                            if (form.checkValidity() === false) {
+                                event.preventDefault();
+                                event.stopPropagation();
+                            }
+                            form.classList.add('was-validated');
+                        }, false);
+                    });
+                }, false);
+            })();
+
+            function openTabOnLoad(idSale) {
+                var brSale=0;
+                var brSale = "<?php if($_POST['SalaID']!=null){ echo $_POST['SalaID'];} ?>";
+
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
                 }
 
-                .xDugme{
-                    color:red;
+                if(brSale=="1"){
+                     document.getElementById("Sala1").style.display = "block";
+                    document.getElementById("Sala1").className += " active";
+                    tablinks[0].className += " active";
                 }
-
-            </style>
-
-            <script>
-
-                function openTabOnLoad(idSale) {
-                    var brSale=0;
-                    var brSale = "<?php if($_POST['SalaID']!=null){ echo $_POST['SalaID'];} ?>";
-
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";
-                    }
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-
-                    if(brSale=="1"){
-                        document.getElementById("Sala1").style.display = "block";
-                        document.getElementById("Sala1").className += " active";
-                        tablinks[0].className += " active";
-                    }
-                    else if(brSale=="2"){
-                        document.getElementById("Sala2").style.display = "block";
-                        document.getElementById("Sala2").className += " active";
-                        tablinks[1].className += " active";
-                    }
-                    else if(brSale=="3"){
-                        document.getElementById("Sala3").style.display = "block";
-                        document.getElementById("Sala3").className += " active";
-                        tablinks[2].className += " active";
-                    }
-                    else{
-                        document.getElementById("Sala1").style.display = "block";
-                        tablinks[0].className += " active";
-                    }
+                else if(brSale=="2"){
+                    document.getElementById("Sala2").style.display = "block";
+                    document.getElementById("Sala2").className += " active";
+                    tablinks[1].className += " active";
                 }
-
-                function openTab(evt, tabId) {
-                    var i, tabcontent, tablinks;
-                    tabcontent = document.getElementsByClassName("tabcontent");
-                    for (i = 0; i < tabcontent.length; i++) {
-                        tabcontent[i].style.display = "none";
-                    }
-                    tablinks = document.getElementsByClassName("tablinks");
-                    for (i = 0; i < tablinks.length; i++) {
-                        tablinks[i].className = tablinks[i].className.replace(" active", "");
-                    }
-                    document.getElementById(tabId).style.display = "block";
-                    evt.currentTarget.className += " active";
+                else if(brSale=="3"){
+                    document.getElementById("Sala3").style.display = "block";
+                    document.getElementById("Sala3").className += " active";
+                    tablinks[2].className += " active";
                 }
+                else{
+                    document.getElementById("Sala1").style.display = "block";
+                    tablinks[0].className += " active";
+                }
+            }
 
-            </script>
+            function openTab(evt, tabId) {
+                var i, tabcontent, tablinks;
+                tabcontent = document.getElementsByClassName("tabcontent");
+                for (i = 0; i < tabcontent.length; i++) {
+                    tabcontent[i].style.display = "none";
+                }
+                tablinks = document.getElementsByClassName("tablinks");
+                for (i = 0; i < tablinks.length; i++) {
+                    tablinks[i].className = tablinks[i].className.replace(" active", "");
+                }
+                document.getElementById(tabId).style.display = "block";
+                evt.currentTarget.className += " active";
+            }
+        </script>
 
     </head>
     <body onload="openTabOnLoad('Sala1')">
-        <div class="header">
-            <h1>Cinerman</h1>
-            <a href="<?= site_url("Admin/logout") ?>" id="logout">Log out</a>
-        </div>
+        <div class="container-fluid bg-dark">
+            <div class="row vh-100">
+                <div class="col-sm-2 d-flex justify-content-center">
+                    <nav class="navbar text-center">
+                        <ul class="navbar-nav">
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/register") ?>" class="btn btn-light btn-block" role="button">Registracija zaposlenih</a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/delete") ?>" class="btn btn-light btn-block" role="button">Uklanjanje zaposlenih</a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/addMovie") ?>" class="btn btn-light btn-block" role="button">Dodavanje filma</a>
+                            </li>
+                            <li class="nav-item mb-3">
+                                <a href="<?= site_url("Admin/makeSchedule") ?>" class="btn btn-light btn-block" role="button">Pravljenje repertoara</a> 
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
 
-        <div class="topnav">
-            <a href="<?= site_url("Admin/register") ?>">Registracija novog korisninka</a>
-            <a href="<?= site_url("Admin/delete") ?>">Uklanjanje zaposlenog iz sistema</a>
-            <a href="<?= site_url("Admin/addMovie") ?>">Dodavanje novog filma u bazu</a>
-            <a href="<?= site_url("Admin/makeSchedule") ?>">Pravljenje repertoara</a>
-        </div>
-
-        <div>
-            <p>Dobrodosli na stranicu za pravljenje repertoara</p>
-        </div>
-
-        <div>
-            <?php if(isset($poruka)) echo "<font color='red'>$poruka</font><br>"; ?>
-
-            <form name="makeSchedform" action="<?= site_url("Admin/makeScheduleSubmit") ?>" method="post">
-                <div class="container" align="center"> 
-                    <div class="box"> 
-                        <div class="box-row"> 
-                            <div class="box-cell box1"> 
-                                <table class="setup">
+                <div class="col-sm-4 bg-white d-flex justify-content-center align-items-center">
+                    <div class="shadow-lg p-4 mb-4 bg-ligt">
+                        <form name="makeSchedform" class="needs-validation text-center" action="<?= site_url("Admin/scheduleSubmit") ?>" method="post" style="width:400px">
+                            <div class="form-group text-left">
+                                <table>
                                     <tr>
-                                        <td>Izaberite datum</td>
-                                        <td><input type="date" name="datum" value="<?= set_value('datum')?>" oninput="dateDugme()"></td>
-                                        <td>
-                                            <font color='red'>
-                                                <?php 
-                                                    if(!empty($errors['datum']))
-                                                        echo "Datum ne sme biti prazno polje";
-                                                ?>
-                                            </font>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Izaberite vreme pocetka prikazivanja filmova</td>
-                                        <td><input type="text" name="vreme" value="<?php set_value('vreme'); ?>"></td>
-                                        <td>
-                                            <font color='red'>
-                                                <?php 
-                                                    if(!empty($errors['vreme']))
-                                                        echo "Pocetno vreme ne sme biti prazno polje";
-                                                ?>
-                                            </font>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Izaberite film</td>
-                                        <td>
-                                            <?php
-                                                echo "<select name='mov' id='movies'>";
-                                                echo "<option></option>";
-                                                $filmModel = new FilmModel();
-                                                $filmovi = $filmModel->dohvatiFilmove();
-                                                foreach($filmovi as $film) {
-                                                    echo "<option value='{$film->FilmID}'>{$film->Naziv} - {$film->Trajanje}</option>";
-                                                }
-                                                echo "</select>";
-                                            ?>
-                                        </td>
-                                        <td>
-                                            <font color='red'>
-                                                <?php 
-                                                    if(!empty($errors['mov']))
-                                                        echo "Film ne sme biti prazno polje";
-                                                ?>
-                                            </font>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>Sala </td>
-                                        <td>
-                                            <select name="sala" id="salaId">
-                                                <option value=""></option>
-                                                <option value="1">1</option>
-                                                <option value="2">2</option>
-                                                <option value="3">3</option>
-                                            </select>
-                                        </td>
-                                        
-                                        <td>
-                                            <font color='red'>
-                                                <?php 
-                                                    if(!empty($errors['sala']))
-                                                        echo "Sala ne sme biti prazno polje";
-                                                ?>
-                                            </font>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td><input type="submit" name="dodaj" value="Dodaj film" formaction="insertMovieSubmit"></td>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="submit" name="osveziTabelu" value="Osvezi tabelu" formaction="dovuciTermineZaDatum"></td>
+                                        <td class="p-4">Datum repertoara</td>
+                                        <td><input type="date" class="form-control" id="datum" placeholder="" name="datum" value="<?= set_value('datum')?>" oninput="dateDugme()" required></td>
                                     </tr>
                                 </table>
                             </div>
-                        </div> 
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary" formaction="dovuciTermineZaDatum">Prikazi repertoar</button>
+                            </div>
+                            <hr>
+                            <?php if(isset($poruka)) echo "<p><font color='red'>$poruka</font></p>"; ?>
+                            <hr>
+                            <div class="form-group">
+                                
+                                <table >
+                                    <tr>
+                                        <td class="p-4">Vreme pocetka filma</td>
+                                        <td>
+                                        <?php
+                                            echo '<select name="sat" id="sat" class="custom-select">';
+                                            for($i = 0; $i < 24; $i++) {
+                                                if($i < 10) $val = "0" . $i;
+                                                else $val = $i;
+                                                echo "<option value='$val'>$val</option>";
+                                            }
+                                            echo '</select>';
+                                        ?>
+                                        </td>
+                                        <td class="p-2">:</td>
+                                        <td>
+                                        <?php
+                                            echo '<select name="min" id="min" class="custom-select">';
+                                            for($i = 0; $i < 60; $i++) {
+                                                if($i < 10) $val = "0" . $i;
+                                                else $val = $i;
+                                                echo "<option value='$val'>$val</option>";
+                                            }
+                                            echo '</select>';
+                                        ?>
+                                        </td>
+                                    </tr>
+                                </table>
+                               
+                                
+                                
+                            </div>
+                            <div class="form-group">
+                                <?php Admin::listaFilmova(); ?>
+                            </div>
+                            <div class="form-group">
+                                <select name="sala" id="salaId" class="custom-select">
+                                    <option value="-1">Izaberite salu</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Dodaj film</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
+                <div class="col-sm-6 bg-white mt-5 p-5">
+                    <form name="makeSchedform" class="needs-validation text-center" action="<?= site_url("Admin/deleteTermin") ?>" method="post">
                         <div class="tab">
                             <button class="tablinks" onclick="openTab(event, 'Sala1')" type="button">Sala 1</button>
                             <button class="tablinks" onclick="openTab(event, 'Sala2')"  type="button">Sala 2</button>
@@ -345,31 +311,9 @@
                                 </tbody>
                             </table>
                         </div> <!--poslednji tab-->
-                    </div> 
+                    </form>
                 </div>
-            </form>
-        </div>
-
-
-        <div class="footer">
-            <p>&copy; Cinerman Adimin App</p>
+            </div>
         </div>
     </body>
 </html>
-
-
-<!-- Za biranje vremena
-        <label for="appt-time">Choose an appointment time: </label>
-        <input id="appt-time" type="time" name="appt-time" value="13:30">
--->
-
-<!-- Da ne zaboravimo
-
-srediti ispis gresaka
-srediti input polja
-napraviti fju za formiranje cene
-
-razmisliti o dodavanju u vuse sala
-razmisliti o dodavanju u vise termina
-
--->

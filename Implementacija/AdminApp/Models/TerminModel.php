@@ -2,13 +2,32 @@
 
 use CodeIgniter\Model;
 
+/**
+ * Ivan Rakonjac 2017/0656
+ * 
+ * Klasa koja sluzi za rad sa tabelom termin baze podataka
+ * 
+ * @version 2
+ */
 class TerminModel extends Model
 {
+    /**
+     * @var $table - naziv tabele u bazi
+     */
     protected $table = 'termin';
+    /**
+     * @var $primarykey - primarni kljuc tabele
+     */
     protected $primaryKey = 'TerminID';
 
+    /**
+     * @var $returntype - povratna vrednost upita
+     */
     protected $returnType = 'object';
 
+    /**
+     * @var $allowedFields - dozvoljena polja za modifikaciju
+     */
     protected $allowedFields = [
         'TerminID',
         'FilmID',
@@ -20,9 +39,9 @@ class TerminModel extends Model
     ];
 
     /*
-    *dohvatam sve termine za zadati datum
-    *joinujem sa filmom da bi dobio podatke za prikaz
-    *sortujem po vremenu pocetka filma
+        *dohvatam sve termine za zadati datum
+        *joinujem sa filmom da bi dobio podatke za prikaz
+        *sortujem po vremenu pocetka filma
     */
     public function dohvatiTerminePoDatumu($datum){
         
@@ -39,12 +58,12 @@ class TerminModel extends Model
     }
 
     /*
-    *provaravam da li postoji termin
-    *u zadatom datumu => $datum
-    *u zadatoj sali => $salaId
-    *sa istim vremenom pocetka => $pocetakTermina
-    *vraca 0 ako nema termina sa zadatim param
-    *vraca -1 ako takav termin vec postoji
+        *provaravam da li postoji termin
+        *u zadatom datumu => $datum
+        *u zadatoj sali => $salaId
+        *sa istim vremenom pocetka => $pocetakTermina
+        *vraca 0 ako nema termina sa zadatim param
+        *vraca -1 ako takav termin vec postoji
     */
     public function proveriValidnostTermina($datum,$salaId,$pocetakTermina){
        
