@@ -176,6 +176,8 @@ class Admin extends BaseController
             return $this->addMovie("Pogresno uneseno vreme pocetka i/ili kraja prikazivanja");
         }
 
+        $putanjaDoSLike=$this->uploadImage();
+
         $data = [
             'Naziv' => $_POST['naziv'],
             'OriginalniNaziv' => $_POST['onaziv'],
@@ -187,7 +189,7 @@ class Admin extends BaseController
             'Reditelj' => $_POST['red'],
             'Uloge' => $_POST['uloge'],
             'Opis' => $_POST['opis'],
-            'Slika' => $_POST['slika']
+            'Slika' => $putanjaDoSLike
         ];
 
         $fModel->insert($data);
@@ -383,5 +385,21 @@ class Admin extends BaseController
         }
 
         return $cena;
+    }
+
+    public function uploadImage(){
+        echo "usao sam ovde";
+        $file = $this->request->getFile('slika');
+
+        if($file->getSize()>0){
+            echo "File name:".$file->getName()."<br>";
+            echo "File size:".$file->getSize()."<br>";
+            echo "File random name:".$file->getRandomName()."<br>";
+            echo "File extension:".$file->getExtension()."<br>";
+            $file->move('./public/upload',$file->getName());
+        }
+
+        return './public/upload/'.$file->getName();
+        
     }
 }

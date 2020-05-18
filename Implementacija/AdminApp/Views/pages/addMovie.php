@@ -64,7 +64,7 @@
                 <div class="col-sm-10 bg-white d-flex justify-content-center align-items-center">
                     <div class="shadow-lg p-4 mb-4 mt-5 bg-ligt">
                         <?php if(isset($poruka)) { echo "<p><font color='red'>$poruka</font></p>"; } ?>
-                        <form name="addMovieForm" action="<?= site_url("Admin/movieSubmit") ?>" method="post" class="needs-validation" novalidate style="width: 800px">
+                        <form name="addMovieForm" enctype="multipart/form-data" action="<?= site_url("Admin/movieSubmit") ?>" method="post" class="needs-validation" novalidate style="width: 800px">
                             <div class="form-group row">
                                 <div class="col-sm-6">  
                                     <input type="text" class="form-control" id="naziv" placeholder="Naziv filma" name="naziv" required>
@@ -133,6 +133,13 @@
                             </div>
                             <button type="submit" class="btn btn-primary px-4 float-right">Dodaj film</button>
                         </form>
+<!--
+                        <form method="post" enctype="multipart/form-data" >
+                            Photo <input type="file" name="photo">
+                            <br>
+                            <button type="submit" class="btn btn-primary" formaction="upload">Upload</button>
+                        </form>
+-->
                     </div>
                 </div>  
             </div>   
