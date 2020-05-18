@@ -10,7 +10,7 @@ use App\Models\TerminModel;
  * 
  * Admin - klasa za rad ulogovanog korisnika
  * 
- * @version 2
+ * @version 3
  */
 class Admin extends BaseController
 {
@@ -50,8 +50,8 @@ class Admin extends BaseController
      * 
      * @return void
      */
-    public function register($poruka = null) {
-        $this->prikaz('register', ['poruka'=>$poruka]);
+    public function register($poruka = null, $uspeh = null) {
+        $this->prikaz('register', ['poruka'=>$poruka, 'uspeh'=>$uspeh]);
     }
 
      /**
@@ -61,8 +61,8 @@ class Admin extends BaseController
      * 
      * @return void
      */
-    public function delete($poruka = null) {
-        $this->prikaz('delete', ['poruka'=>$poruka]);
+    public function delete($poruka = null, $uspeh = null) {
+        $this->prikaz('delete', ['poruka'=>$poruka, 'uspeh'=>$uspeh]);
     }
 
      /**
@@ -72,8 +72,8 @@ class Admin extends BaseController
      * 
      * @return void
      */
-    public function addMovie($poruka = null) {
-        $this->prikaz('addMovie', ['poruka'=>$poruka]);
+    public function addMovie($poruka = null, $uspeh = null) {
+        $this->prikaz('addMovie', ['poruka'=>$poruka, 'uspeh'=>$uspeh]);
     }
 
      /**
@@ -110,7 +110,7 @@ class Admin extends BaseController
         $novi = new ZaposleniModel();
 
         if(($novi->where('KorisnickoIme', $this->request->getVar('uname'))->first()) != null) {
-            return $this->register("Korisnicko ime vec postoji, izaberite neko drugo");
+            return $this->register("Korisnicko ime vec postoji");
         }
 
         if(isset($_POST["priv"])) {
@@ -130,7 +130,7 @@ class Admin extends BaseController
 
         $novi->insert($data);
 
-        return redirect()->to(site_url("Admin/register"));
+        return $this->register(null, 1);
     }
 
     /**
@@ -153,7 +153,7 @@ class Admin extends BaseController
 
         $zModel->where('ZaposleniID', $zaposleni->ZaposleniID)->delete();
 
-        return redirect()->to(site_url('Admin/delete'));
+        return $this->delete(null, 1);
     }
 
     /**
@@ -194,7 +194,7 @@ class Admin extends BaseController
 
         $fModel->insert($data);
 
-        return redirect()->to(site_url("Admin/addMovie"));
+        return $this->addMovie(null, 1);
     }
 
     /**
@@ -248,9 +248,9 @@ class Admin extends BaseController
 
         if($terminModel->proveriValidnostTermina($data['Datum'],$data['SalaID'],$data['PocetakTermina'])==0){
             $terminModel->insert($data);
-            $this->prikazMakeSchedule("Termin je uspesno dodat.");
+            $this->prikazMakeSchedule("Termin je uspesno dodat.", 1);
         }else{
-            $this->prikazMakeSchedule("Termin je zauzet!");
+            $this->prikazMakeSchedule("Termin je zauzet!", null);
         }
     }
 
@@ -267,7 +267,7 @@ class Admin extends BaseController
         $terminModel = new TerminModel();
         $datum=$_POST['datum'];
         $podaci['termini']=$terminModel->dohvatiTerminePoDatumu($datum);
-        return $this->prikaz('makeSchedule', ['poruka'=>"",'termini'=>$podaci['termini'],'datum'=>$_POST['datum']]);
+        return $this->prikaz('makeSchedule', ['poruka'=>null,'termini'=>$podaci['termini'],'datum'=>$_POST['datum'], 'uspeh'=>null]);
     }
 
     /**
@@ -285,7 +285,7 @@ class Admin extends BaseController
         //brisem termin
         $terminModel->where('TerminID', $idTermina)->delete();
 
-        $this->prikazMakeSchedule("Termin je uspesno obrisan.");  
+        $this->prikazMakeSchedule("Termin je uspesno obrisan.", 1);
     }
 
     /**
@@ -293,7 +293,7 @@ class Admin extends BaseController
      * 
      * @return void
      */
-    protected function prikazMakeSchedule($poruka=null)
+    protected function prikazMakeSchedule($poruka=null, $uspeh)
     {
         $terminModel = new TerminModel();
 
@@ -302,6 +302,7 @@ class Admin extends BaseController
         $data['poruka']=$poruka;
         $data['SalaID']=$_POST['SalaID'];
         $data['datum']=$this->date;
+        $data['uspeh']=$uspeh;
 
         $data['controller'] = 'Admin';
         echo view ("templates/header.php");
@@ -387,19 +388,24 @@ class Admin extends BaseController
         return $cena;
     }
 
+    /**
+     * Funkcija za upload slike
+     * 
+     * @return string
+     */
     public function uploadImage(){
-        echo "usao sam ovde";
         $file = $this->request->getFile('slika');
 
         if($file->getSize()>0){
-            echo "File name:".$file->getName()."<br>";
-            echo "File size:".$file->getSize()."<br>";
-            echo "File random name:".$file->getRandomName()."<br>";
-            echo "File extension:".$file->getExtension()."<br>";
             $file->move('./public/upload',$file->getName());
         }
 
         return './public/upload/'.$file->getName();
-        
     }
+
+    //---------------------------------------------------------------------------
+    /**
+     * Skript funkcije koje se aktiviraju kada se korisnik uloguje na sistem
+     * Sluze za odrzavanje baze
+     */
 }

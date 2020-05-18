@@ -64,7 +64,22 @@
                 </div>
                 <div class="col-sm-10 d-flex justify-content-center align-items-center bg-white text-center">
                     <div class="shadow-lg p-4 mb-4 bg-ligt">
-                        <?php if(isset($poruka)) { echo "<p><font color='red'>$poruka</font></p>"; } ?>
+                        <?php 
+                            if(isset($poruka)) { 
+                                echo "<div class='alert alert-dismissible alert-danger text-center'>";
+                                echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                echo "<strong>$poruka</strong>";
+                                echo "</div>";
+                            }
+                            else {
+                                if(isset($uspeh)) {
+                                    echo "<div class='alert alert-dismissible alert-success text-center'>";
+                                    echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                    echo "<strong>Uspesno ste obrisali zaposlenog</strong>";
+                                    echo "</div>";
+                                }
+                            }
+                        ?>
                         <form name="deleteForm" class="form-inline needs-validation" action="<?= site_url("Admin/deleteSubmit") ?>" method="post" novalidate>
                             <?php Admin::listaZaposlenih(); ?>
                             <button type="submit" class="btn btn-danger">Obrisi zaposlenog</button>

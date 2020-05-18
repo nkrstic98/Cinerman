@@ -63,7 +63,22 @@
                 </div>
                 <div class="col-sm-10 bg-white d-flex justify-content-center align-items-center">
                     <div class="shadow-lg p-4 mb-4 mt-5 bg-ligt">
-                        <?php if(isset($poruka)) { echo "<p><font color='red'>$poruka</font></p>"; } ?>
+                        <?php 
+                            if(isset($poruka)) { 
+                                echo "<div class='alert alert-dismissible alert-danger text-center'>";
+                                echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                echo "<strong>$poruka</strong>";
+                                echo "</div>";
+                            }
+                            else {
+                                if(isset($uspeh)) {
+                                    echo "<div class='alert alert-dismissible alert-success text-center'>";
+                                    echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                    echo "<strong>Uspesno ste dodali film</strong>";
+                                    echo "</div>";
+                                }
+                            }
+                        ?>
                         <form name="addMovieForm" enctype="multipart/form-data" action="<?= site_url("Admin/movieSubmit") ?>" method="post" class="needs-validation" novalidate style="width: 800px">
                             <div class="form-group row">
                                 <div class="col-sm-6">  
@@ -133,13 +148,6 @@
                             </div>
                             <button type="submit" class="btn btn-primary px-4 float-right">Dodaj film</button>
                         </form>
-<!--
-                        <form method="post" enctype="multipart/form-data" >
-                            Photo <input type="file" name="photo">
-                            <br>
-                            <button type="submit" class="btn btn-primary" formaction="upload">Upload</button>
-                        </form>
--->
                     </div>
                 </div>  
             </div>   

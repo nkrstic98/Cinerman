@@ -61,7 +61,22 @@
                 </div>
                 <div class="col-sm-10 d-flex justify-content-center align-items-center bg-white text-center">
                     <div class="shadow-lg p-4 mb-4 bg-ligt">
-                        <?php if(isset($poruka)) { echo "<p><font color='red'>$poruka</font></p>"; } ?>
+                        <?php 
+                            if(isset($poruka)) { 
+                                echo "<div class='alert alert-dismissible alert-danger text-center'>";
+                                echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                echo "<strong>$poruka</strong>";
+                                echo "</div>";
+                            }
+                            else {
+                                if(isset($uspeh)) {
+                                    echo "<div class='alert alert-dismissible alert-success text-center'>";
+                                    echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                    echo "<strong>Uspesno ste dodali zaposlenog</strong>";
+                                    echo "</div>";
+                                }
+                            }
+                        ?>
                         <form name="registerForm" action="<?= site_url("Admin/registerSubmit") ?>" method="post" class="needs-validation" novalidate style="width:400px">
                             <div class="form-group">
                                 <input type="text" class="form-control" id="name" placeholder="Ime" name="name" required value="<?= set_value('name') ?>">

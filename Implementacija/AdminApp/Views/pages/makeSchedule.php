@@ -194,7 +194,22 @@
                                 <button type="submit" class="btn btn-primary" formaction="dovuciTermineZaDatum">Prikazi repertoar</button>
                             </div>
                             <hr>
-                            <?php if(isset($poruka)) echo "<p><font color='red'>$poruka</font></p>"; ?>
+                            <?php 
+                                if(isset($poruka) && !isset($uspeh)) {
+                                    echo "<div class='alert alert-dismissible alert-danger text-center'>";
+                                    echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                    echo "<strong>$poruka</strong>";
+                                    echo "</div>";
+                                }
+                                else {
+                                    if(isset($uspeh) && isset($uspeh)) {
+                                        echo "<div class='alert alert-dismissible alert-success text-center'>";
+                                        echo "<button type='button' class='close' data-dismiss='alert'>&times;</button>";
+                                        echo "<strong>$poruka</strong>";
+                                        echo "</div>";
+                                    }
+                                }
+                            ?>
                             <hr>
                             <div class="form-group">
                                 <table >
