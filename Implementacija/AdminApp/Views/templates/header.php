@@ -4,7 +4,7 @@
 <header class="bg-dark fixed-top">
     <div class="row">
         <div class="col-sm-2 text-center">
-            <h1 class="display-4 text-white">Cinerman</h1>
+            <a class="display-4 text-white" href="<?= site_url("Admin/welcome") ?>" style="text-decoration: none">Cinerman</a>
         </div>
         <div class="col-sm-8"></div>
         <div class="col-sm-2">
