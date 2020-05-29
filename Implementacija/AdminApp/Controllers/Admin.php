@@ -403,7 +403,8 @@ class Admin extends BaseController
         $file = $this->request->getFile('slika');
 
         if($file->getSize()>0){
-            $file->move('./public/upload',$file->getName());
+        	//setovati ovu adresu na upload folder UserApp
+            $file->move('C:\xampp\htdocs\Projekti\UserApp\public\public\upload',$file->getName());
         }
 
         return './public/upload/'.$file->getName();
