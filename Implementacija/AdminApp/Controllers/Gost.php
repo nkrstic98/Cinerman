@@ -66,6 +66,23 @@ class Gost extends BaseController
 
         $this->session->set('adminUser', $zaposleni->KorisnickoIme);
         $this->session->set('adminPass', $zaposleni->Lozinka);
+
+        $fModel = new FilmModel();
+
+        $filmovi = $fModel->dohvatiFilmove();
+
+        foreach ($filmovi as $film) {
+            $date = $film->KrajPrikazivanja;
+            $today = date("Y-m-d");
+            if($date < $today) {
+                $fModel->where("FilmID", $film->FilmID)->delete();
+            }
+        }
+
         return redirect()->to(site_url('Admin/welcome'));
+    }
+
+    public function deleteMovies() {
+        
     }
 }

@@ -357,6 +357,16 @@ class Admin extends BaseController
      * @return int
      */
     public function formirajCenu($start_time, $end_time, $trajanje) {
+        $dt1 = strtotime($_POST['datum']);
+        $dt2 = date("l", $dt1);
+        $dt3 = strtolower($dt2);
+
+        if($dt3 == "saturday" || $dt3 == "sunday") {
+            if(strtotime($start_time) >= strtotime("11:00:00") && strtotime($start_time) < strtotime("12:00:00")) {
+                return 270;
+            }
+        }
+
         if(strtotime($start_time) < strtotime("17:00:00")) {
             $cena = 300;
         }
@@ -370,10 +380,6 @@ class Admin extends BaseController
         else if($trajanje >= 180) {
             $cena += 50;
         }
-
-        $dt1 = strtotime($_POST['datum']);
-        $dt2 = date("l", $dt1);
-        $dt3 = strtolower($dt2);
 
         if($dt3 == "saturday" || $dt3 == "sunday") {
             $cena += 50;
