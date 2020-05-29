@@ -6,7 +6,7 @@ use App\Models\LoyaltyModel;
 /**
  * Nikola Krstic 2017/0265
  * 
- * GostController - klasa za logovanje registrovanog korisnika
+ * Korisnik - klasa za prijavu i registraciju korisnika
  * 
  * @version 1
  */
@@ -29,9 +29,9 @@ class Korisnik extends BaseController
     }
 
     /**
-     * Funkcija koja sluzi za prikaz View-a index
+     * Funkcija koja sluzi za prikaz View-a login
      * 
-     * @param $poruka - poruka greske koja se prikazuje (opcioni parametar)
+     * @param $poruka - porukaa koja se prikazuje (opcioni parametar)
      * @param $f - bool parametar za pomoc prilikom ispisa greske (opcioni parametar)
      * 
      * @return void
@@ -40,22 +40,47 @@ class Korisnik extends BaseController
         $this->prikaz('login', ['poruka'=>$poruka, 'f'=>$f]);
     }
 
-    public function index($poruka = null) {
-        $this->prikaz('index', ['poruka'=>$poruka]);
-    }
-
+    /**
+     * Funkcija koja sluzi za prikaz View-a changePass
+     * 
+     * @param $poruka - poruka koja se prikazuje (opcioni parametar)
+     * @param $uspeh - bool parametar za pomoc prilikom ispisa greske (opcioni parametar)
+     * 
+     * @return void
+     */
     public function changePass($poruka = null, $uspeh = null) {
         $this->prikaz('changePass', ['poruka'=>$poruka, 'uspeh'=>$uspeh]);
     }
 
+    /**
+     * Funkcija koja sluzi za prikaz View-a recoverPass
+     * 
+     * @param $poruka - porukaa koja se prikazuje (opcioni parametar)
+     * @param $uspeh - bool parametar za pomoc prilikom ispisa greske (opcioni parametar)
+     * 
+     * @return void
+     */
     public function recoverPass($poruka = null, $uspeh = null) {
         $this->prikaz('recoverPass', ['poruka'=>$poruka, 'uspeh'=>$uspeh]);
     }
 
+    /**
+     * Funkcija koja sluzi za prikaz View-a register
+     * 
+     * @param $poruka - poruka greske koja se prikazuje (opcioni parametar)
+     * 
+     * @return void
+     */
     public function register($poruka = null) {
         $this->prikaz('register', ['poruka'=>$poruka]);
     }
 
+    /**
+     * Funkcija koja se poziva kada se korisnik odjavi iz aplikacije
+     * 
+     * 
+     * @return void
+     */
     public function logout() {
         $this->session->destroy();
         return redirect()->to("http://localhost:8080/index.php/FrontPage");
@@ -65,6 +90,7 @@ class Korisnik extends BaseController
 
     /**
      * Login funkcija koja koristi korisnicko ime i lozinku
+     * Logovanje korisnika na sistem
      * 
      * @return Response
      */
@@ -103,6 +129,11 @@ class Korisnik extends BaseController
         return redirect()->to(site_url('FrontPage/index'));
     }
 
+    /**
+     * Promena lozinke korisnika
+     * 
+     * @return Response
+     */
     public function changePassword() {
         $kModel = new KorisnikModel();
 
@@ -135,6 +166,10 @@ class Korisnik extends BaseController
         return $this->changePass("Uspesno ste postavili novu lozinku", 1);
     }
 
+    /**
+     * Funkcija koja se koristi za resetovanje lozinke
+     * Kada korisnik izgubi sifru, resetuje mu se lozinka
+     */
     public function recoverPassword() {
         $kModel = new KorisnikModel();
 
@@ -150,6 +185,10 @@ class Korisnik extends BaseController
         return $this->changePass();
     }
 
+    /**
+     * Registracija korisnika
+     * Upis podataka u bazu
+     */
     public function registerSubmit() {
         $novi = new KorisnikModel();
 
@@ -162,33 +201,19 @@ class Korisnik extends BaseController
         }
 
         $name = $this->test_input($_POST["name"]);
-        // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z ]*$/",$name)) {
             return $this->register("Ime moze sadrzati samo slova");
         }
 
         $lname = $this->test_input($_POST["lname"]);
-        // check if name only contains letters and whitespace
         if (!preg_match("/^[a-zA-Z ]*$/",$lname)) {
             return $this->register("Prezime moze sadrzati samo slova");
         }
 
         $email = $this->test_input($_POST["uname"]);
-        // check if e-mail address is well-formed
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             return $this->register("Pogresan format e-mail adrese");
         }
-
-        /*if(!empty($_POST["pswd"]) && isset( $_POST['pswd'] )) {
-            $password = $_POST["pswd"];
-            $cpassword = $_POST["pswdC"];
-            if (strlen($_POST["pswd"]) <= 8) {
-                return $this->register("Minimalna duzina lozinke je 8 karaktera");
-            }
-            elseif(!preg_match("#[0-9]+#",$password)) {
-                return $this->register("Lozinka mora sadrzati bar 1 broj");
-            }
-        }*/
 
         $data = [
             'Ime' => $_POST["name"],
@@ -201,9 +226,14 @@ class Korisnik extends BaseController
 
         $this->loginSubmit();
 
-        return redirect()->to(site_url('Korisnik/index'));
+        return redirect()->to(site_url('FrontPage/index'));
     }
 
+    /**
+     * Funkcija koja sluzi za testiranje unetih podataka
+     * 
+     * @return string
+     */
     public function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);

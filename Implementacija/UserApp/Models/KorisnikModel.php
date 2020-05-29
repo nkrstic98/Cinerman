@@ -2,9 +2,16 @@
 
 use CodeIgniter\Model;
 
+/**
+ * Nikola Krstic 2017/0265
+ * 
+ * Klasa koja sluzi za rad sa informacijama iz tabele korisnik
+ * 
+ * @version 1
+ */
 class KorisnikModel extends Model
 {
-   /**
+    /**
      * @var $table - naziv tabele u bazi
      */
     protected $table = 'korisnik';

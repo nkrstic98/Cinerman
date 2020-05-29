@@ -5,7 +5,7 @@ use CodeIgniter\Model;
 /**
  * Nikola Krstic 2017/0265
  * 
- * Klasa koja sluzi za rad sa informacijama iz tabele loyaltykorisnik
+ * Klasa koja sluzi za rad sa informacijama iz tabele loyalitykorisnik
  * 
  * @version 1
  */
@@ -34,7 +34,7 @@ class LoyaltyModel extends Model
     ];
 
     /**
-     * Pomocna funkcija za dohvatanje svih zaposlenih
+     * Pomocna funkcija za dohvatanje svih korisnika
      * 
      * @return Object Array
      */
