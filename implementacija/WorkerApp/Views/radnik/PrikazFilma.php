@@ -30,15 +30,12 @@ function azurirajDatum()
         var obj=JSON.parse(data);
         var x=document.getElementById('datum');
         x.innerHTML="<select name='datum' onChange='azurirajFilm()' id='datum'>";
-       // x.innerHTML+="<option value='NULL'>Izaberite jedan</option>";
 
         for (var i=0;i<obj.length;i++)
         {
             x.innerHTML+="<option value="+obj[i].Datum+">"+obj[i].Datum+"</option>"
-            //console.log(obj[i]);
         }
         x.innerHTML+="</select>";
-       // if (document.getElementById('datum').value!=NULL && document.getElementById('film').value!=NULL)
         pogledajTermine();
     });
 }
@@ -100,7 +97,7 @@ function reset()
 </script>    
 
 
-    <body>
+    <body onload='pogledajTermine()'>
         <nav class="navbar navbar-dark bg-dark">
             <span class="navbar-brand mb-0 h1" style="font-size: 30px;">Cinerman</span>
             <form class="form-inline my-2 my-lg-0" name="backLogoutform" action="<?= site_url("Radnik/vratiIzadji") ?>" method="post">
@@ -121,8 +118,9 @@ function reset()
                 <table class="table table-borderless" width="100%">
                     <tr>
                         <td width="50%" align="center" >
+                        <p>Izaberite datum</p>
                         <select class="btn btn-light btn-outline-dark dropdown-toggle" name='datum' onChange='azurirajFilm()' id='datum'>
-                        <option value='NULL'>Izaberite jedan</option>
+                        
                         <?php foreach ($datumi as $row)
                             {
                             $pom=$row['Datum'];
@@ -133,8 +131,9 @@ function reset()
                     </tr>
                     <tr>
                         <td width="50%" align="center">
+                        <p>Izaberite film</p>
                         <select class="btn btn-light btn-outline-dark dropdown-toggle" name='film' onChange='azurirajDatum()' id='film'>
-                        <option value='NULL'>Izaberite jedan</option>
+                        
                         <?php
                         foreach ($filmovi as $row)
                         {

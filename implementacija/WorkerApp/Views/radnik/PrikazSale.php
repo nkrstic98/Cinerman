@@ -12,27 +12,59 @@
         <title>Registracija Korisnika</title>
         
     </head>
+<style>
+    .zauzeto
+{
+      
+    border-radius:5px;
+    background-color: #4d4d4d;
+}
+.slobodno
+{
+       
+    border-radius:5px;
+    background-color:#e1e1d0;
+}
+.izabrano
+{
+    
+    border-radius:5px;
+    background-color: #990000;
+
+}
+</style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type='text/javascript'>
+    <script type='text/javascript'>
     var obj ={"polja":[],
     "terminID":"<?php echo $termin?>"
     }
         function pritisnut(ele)
         {
-            if(document.getElementById(ele.id).style.backgroundColor=='yellow' || document.getElementById(ele.id).style.backgroundColor=='red')
+            if(ele.className=='izabrano')
+            {
+                ele.className='slobodno';
+                for (var i=0; i<obj.polja.length;i++)
+                {
+                    if (obj.polja[i]==ele.id)
+                    {
+                        obj.polja.splice(i,1);
+                        break;
+                    }
+                }
                 return;
-           //alert(document.getElementById(ele.id).style.backgroundColor);
+            }
+            if (ele.className=='zauzeto')
+                return;
+            //if (obj.polja.length==5) return;
+            
             obj.polja[obj.polja.length]=ele.id;
-                document.getElementById(ele.id).style.backgroundColor='yellow';
-            //ele.style.bgcolor='yellow';
+            ele.className='izabrano';
         }
         function kupi()
         {   
-  //      alert(  document.getElementById('korisnickoIme').value);
         if (obj.polja.length==0)
         {
-            //alert ("niste izabrali polja");
-            string="<div class='alert alert-danger' role='alert'>Niste izabrali mesta!</div>";
+            string="<div class='alert alert-danger alert-dismissible' role='alert'>Niste izabrali mesta!</div>";
             document.getElementById("alert").innerHTML = string;
             return;
         }
@@ -47,23 +79,23 @@
                 var myObj = JSON.parse(data);
                 if (myObj.status=='ok')
                 {
-                    string="<div class='alert alert-success' role='alert'>Cena je: " +myObj.cena+ "</div>";
+                    string="<div class='alert alert-success alert-dismissible' role='alert'>Cena je: " +myObj.cena+ "</div>";
                     document.getElementById("alert").innerHTML = string;
                     //alert("cena je "+myObj.cena);
                     for (var i=0;i<obj.polja.length;i++)
                     {
-                        document.getElementById(obj.polja[i]).style.backgroundColor='red';
+                        document.getElementById(obj.polja[i]).className='zauzeto';
                     }
                     obj.polja=[];
                 }
                 else
                 {
-                    string="<div class='alert alert-danger' role='alert'>Niste uneli korisnicko ime loyality korisnika!</div>";
+                    string="<div class='alert alert-danger alert-dismissible' role='alert'>Doslo je do greske pokusajte opet</div>";
                     document.getElementById("alert").innerHTML = string;
                     //alert('niste uneli korisnicko ime loyaliti korisnika');
                     for (var i=0;i<obj.polja.length;i++)
                     {
-                        document.getElementById(obj.polja[i]).style.backgroundColor='green';
+                        document.getElementById(obj.polja[i]).className='slobodno';
                     }
                     obj.polja=[];
                 }
@@ -74,19 +106,19 @@
         {
             if (obj.polja.length==0)
         {
-            string="<div class='alert alert-danger' role='alert'>Niste izabrali mesta!</div>";
+            string="<div class='alert alert-danger alert-dismissible' role='alert'>Niste izabrali mesta!</div>";
             document.getElementById("alert").innerHTML = string;
             //alert ("niste izabrali polja");
             return;
         }
         if (document.getElementById('korisnickoIme').value=="")
         {
-            string="<div class='alert alert-danger' role='alert'>Niste uneli korisnicko ime!</div>";
+            string="<div class='alert alert-danger alert-dismissible' role='alert'>Niste uneli korisnicko ime!</div>";
             document.getElementById("alert").innerHTML = string;
             //alert('niste uneli korisnicko ime');
             for (var i=0;i<obj.polja.length;i++)
             {
-                document.getElementById(obj.polja[i]).style.backgroundColor='green';
+                document.getElementById(obj.polja[i]).className='slobodno';
             }
             obj.polja=[];
             return;
@@ -99,23 +131,23 @@
                 var myObj = JSON.parse(data);
                 if (myObj.status=='ok')
                 {
-                    string="<div class='alert alert-success' role='alert'>Rezervisano je!</div>";
+                    string="<div class='alert alert-success alert-dismissible' role='alert'>Rezervisano je!</div>";
                     document.getElementById("alert").innerHTML = string;
                     //alert("rezervisano je");
                     for (var i=0;i<obj.polja.length;i++)
                     {
-                        document.getElementById(obj.polja[i]).style.backgroundColor='red';
+                        document.getElementById(obj.polja[i]).className='zauzeto';
                     }
                     obj.polja=[];
                 }
                 else
                 {
-                    string="<div class='alert alert-danger' role='alert'>Niste uneli validno korisnicko ime!</div>";
+                    string="<div class='alert alert-danger alert-dismissible' role='alert'>Doslo je do greske pokusajte opet</div>";
                     document.getElementById("alert").innerHTML = string;
                     //alert('niste uneli validno korisnicko ime');
                     for (var i=0;i<obj.polja.length;i++)
                     {
-                        document.getElementById(obj.polja[i]).style.backgroundColor='green';
+                        document.getElementById(obj.polja[i]).className='slobodno';
                     }
                     obj.polja=[];
                 }
@@ -177,18 +209,18 @@
                                     } 
                                    if($k==count($stSed)) {
                                       $pom=$i*$brKolona+$j;
-                                        echo "<td class='polje' bgcolor='green' onclick='pritisnut(this)' id='$pom'></td>";
+                                        echo "<td class='slobodno'  onclick='pritisnut(this)' id='$pom'></td>";
                                        continue;   
                                    }
                                     if ($i*$brKolona+$j==$stSed[$k]['BrojSedista'])
                                     {   
                                         $k++;
-                                        echo "<td class='polje' bgcolor='red'></td>";
+                                        echo "<td class='zauzeto' ></td>";
                                     }   
                                     else
                                     {
                                         $pom=$i*$brKolona+$j;
-                                        echo "<td class='polje' bgcolor='green' onclick='pritisnut(this)' id='$pom'></td>";
+                                        echo "<td class='slobodno' onclick='pritisnut(this)' id='$pom'></td>";
                                     }
                                 }
                                 echo "</tr>";

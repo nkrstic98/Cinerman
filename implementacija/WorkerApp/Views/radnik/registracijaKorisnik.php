@@ -28,7 +28,7 @@
                 </table>
             </form>
         </nav>
-        <form class="needs-validation" novalidate name="loginform" action="<?= site_url("Radnik/unesiKorisnika") ?>" method="post">
+        <form class="needs-validation" novalidate name="registracijaform" action="<?= site_url("Radnik/unesiKorisnika") ?>" method="post">
         <div class="row mt-3">
             <div class="offset-sm-3 col-sm-6 ">
                 <table class="table table-borderless" width="100%">
@@ -47,9 +47,14 @@
                             <input name="email" type="text" class="form-control" placeholder="e-mail" id="validationTooltip01" required>
                         </td>
                     </tr>
+                     <tr>
+                        <td width="50%" align="center">
+                            <input name="username" type="text" class="form-control" placeholder="Korisnicko ime" id="validationTooltip01" required>
+                        </td>
+                    </tr>
                     <tr>
                         <td width="50%" align="center">
-                            <input name="password" type="text" class="form-control" placeholder="Lozinka" id="validationTooltip01" required>
+                            <input name="password" type="password" class="form-control" placeholder="Lozinka" id="validationTooltip01" required>
                         </td>
                     </tr>
                     <tr>

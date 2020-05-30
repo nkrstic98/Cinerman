@@ -6,13 +6,25 @@ use App\Models\TerminModel;
 
 class IzborTermina extends BaseController
 {
+    /**
+     * Funkcija koja se poziva da bi se iscrtao odredjeni view
+     * @param $page-view koji treba da se pozove
+     * @param $data-niz podataka koji se prosledjuje stranici
+     * 
+     * @return void 
+     */
     protected function prikaz($page, $data) {
-        //echo view("radnik/header");
         echo view($page,$data);
     }
 
+    /**
+     * Funkcija koja sluzi za prikaz Viewa index
+     * 
+     * @return void 
+     */
     public function index()
     {
+
         $t= new TerminModel();
         $datumi=$t->getDatume(NULL);
         $filmovi=$t->getFilmove(NULL);
@@ -20,6 +32,10 @@ class IzborTermina extends BaseController
         $data['filmovi']=$filmovi;
         $this->prikaz('radnik/PrikazFilma',$data);
     }
+    /**
+     * Funkcija koja sluzi da vrati datume za odredjeni film 
+     * @return void 
+     */
 
     public function azurirajDatum()
     {//kao podatak imam film treba da nadjem datume
@@ -29,9 +45,13 @@ class IzborTermina extends BaseController
         $myJSON = json_encode($datumi);
         print_r( $myJSON);
     }
+      /**
+     * Funkcija koja sluzi da vrati filmove za odredjeni datum 
+     * @return void 
+     */
 
     public function azurirajFilm()
-    {//kao podatak imam datum treba da nadjem film
+    {
         $t= new TerminModel();
         $datum=$_POST['datum'];
         $film=$t->getFilmove($datum);
@@ -39,12 +59,17 @@ class IzborTermina extends BaseController
         print_r( $myJSON);
     }
 
+      /**
+     * Funkcija koja sluzi da vrati termine za odredjeni film i datum 
+     * @return void 
+     */
+
     public function azurirajTermin()
     {
         $t= new TerminModel();
         $datum=$_POST['datum'];   
         $film=$_POST['film'];
         $myJSON = json_encode($t->getTermine($datum,$film));
-        print_r( $myJSON);
+        print_r($myJSON);
     }
 }

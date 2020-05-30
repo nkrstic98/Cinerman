@@ -34,7 +34,7 @@
                 <table class="table table-borderless" width="100%">
                     <tr>
                         <td width="50%" align="center">
-                            <input name="email" type="text" class="form-control" placeholder="e-mail" id="validationTooltip01" required>
+                            <input name="username" type="text" class="form-control" placeholder="Korisnicko ime" id="validationTooltip01" required>
                         </td>
                     </tr>
                     <tr>

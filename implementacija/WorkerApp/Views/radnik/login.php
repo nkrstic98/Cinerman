@@ -15,17 +15,6 @@
     <body>
         <nav class="navbar navbar-dark bg-dark">
             <span class="navbar-brand mb-0 h1" style="font-size: 30px;">Cinerman</span>
-            <form class="form-inline my-2 my-lg-0" name="backLogoutform" action="<?= site_url("Radnik/vratiIzadji") ?>" method="post">
-                <table class="table table-borderless" width="100%">
-                    <tr>
-                        <td width="50%" align="center">
-                        </td>
-                        <td width="50%" align="center">
-                            <input name="logout" type="submit" class="btn btn-outline-danger my-2 my-sm-0" value="Log out" style="width: 100px;">
-                        </td>
-                    </tr>
-                </table>
-            </form>
         </nav>
         <?php if(isset($poruka)) echo"<div class='alert alert-danger' role='alert'>"; 
                                  echo"$poruka";

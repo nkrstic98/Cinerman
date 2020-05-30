@@ -8,11 +8,24 @@ use App\Models\KorisnikModel;
 
 class IzborSedista extends BaseController
 {
+  
+  
+    /**
+     * Funkcija koja se poziva da bi se iscrtao odredjeni view
+     * @param $page-view koji treba da se pozove
+     * @param $data-niz podataka koji se prosledjuje stranici
+     * 
+     * @return void 
+     */
     protected function prikaz($view,$data)
     {
-        //echo view("radnik/header");
         echo view($view,$data);
     }
+    /**
+     * Funkcija koja sluzi za prikaz Viewa index
+     * 
+     * @return void 
+     */
     public function index()
     {
 
@@ -28,9 +41,13 @@ class IzborSedista extends BaseController
         }
         
     }
+    /**
+     * Funkcija koja izvrsava poroveru i kupovinu izabranih polja u izabranom terminu
+     * 
+     * @return void 
+     */
     public function Placanje()
     {
-        //trebam da uvedem proveru da li postoje polja
         $m= new MestoModel();
         $k= new KorisnikModel();
         $t= new TerminModel();
@@ -38,6 +55,16 @@ class IzborSedista extends BaseController
         $termin=$_POST['terminID'];
         $korIme=$_POST['korisnickoIme'];
         $data;
+
+        if ($m->slobodnaMesta($polja,$termin)==false)
+        {
+            $data["status"]='nijeok';
+            $myJSON = json_encode($data);
+            print_r( $myJSON);
+            return;
+        }        
+
+
         if ($korIme=="")
         {
             foreach($polja as $polje)
@@ -51,45 +78,52 @@ class IzborSedista extends BaseController
         }
     
         
-    
-        // print_r( $k->isLoyality($korIme));
-        if ($k->isLoyality($korIme)==true)
-        {
+        $korID=$k->getKorID($_POST['korisnickoIme']);
         foreach($polja as $polje)
             $m->dodajMesto($termin,$polje,1);
         $cena=$t->getCena($termin)*count($polja);
-        $cena=$cena*90/100;
+        if ($k->isLoyality($korID)==true)
+        {
+            $cena=$cena*90/100;
+        }
         $data["status"]='ok';
         $data["cena"]=$cena;
         $myJSON = json_encode($data);
         print_r( $myJSON);
-        }
-        else
-        {
-            $data["status"]='nijeok';
-            $myJSON = json_encode($data);
-            print_r( $myJSON);
-
-        }
-       // echo "success";
     }
 
+    /**
+     * Funkcija koja izvrsava poroveru i rezervaciju izabranih polja u izabranom terminu
+     * 
+     * @return void 
+     */
     public function Rezervisi()
     {
         $m= new MestoModel();
         $k= new KorisnikModel();
         $t= new TerminModel();
+       // print_r($_POST);
         $polja=$_POST['polja'];
         $termin=$_POST['terminID'];
         $korIme=$_POST['korisnickoIme'];
+        
         $data;
+        
+        if ($m->slobodnaMesta($polja,$termin)==false)
+        {
+            $data["status"]='nijeok';
+            $myJSON = json_encode($data);
+            print_r( $myJSON);
+            return;
+        }   
 
         if ($k->isKorisnik($korIme)==true)
         {
+            $korID=$k->getKorID($_POST['korisnickoIme']);
             foreach($polja as $polje)
             {
             $m->dodajMesto($termin,$polje,2);
-            $m->dodajRezervaciju($polje, $korIme);
+            $m->dodajRezervaciju($polje, $korID,$termin);
             }
             $data["status"]='ok';
             $myJSON = json_encode($data);
@@ -100,7 +134,6 @@ class IzborSedista extends BaseController
             $data["status"]='nijeok';
             $myJSON = json_encode($data);
             print_r( $myJSON);
-        }
-               
+        }      
     }
 }

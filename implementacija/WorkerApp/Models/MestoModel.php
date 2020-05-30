@@ -1,22 +1,48 @@
 <?php namespace App\Models;
 
 use CodeIgniter\Model;
+/**
+ * Damir Savic 2017/0240
+ * 
+ * Klasa koja sluzi za rad sa informacijama iz tabele mesto iz baze
+ * 
+ * @version 1
+ */
 
 class MestoModel extends Model
 {
+    
+    /**
+     * @var $table - naziv tabele u bazi
+     */
     protected $table = 'mesto';
+    /**
+     * @var $primarykey - primarni kljuc tabele
+     */
     protected $primaryKey = 'MestoID';
+    /**
+     * @var $returntype - povratna vrednost upita
+     */
     protected $returnType = 'object';
+    /**
+     * @var $allowedFields - dozvoljena polja za modifikaciju
+     */
     protected $allowedFields = ['MestoID', 'TerminID', 'BrojSedista','Stanje'];
-
+    /**
+     * Funkcija koja dodaje mesto u bazu podataka
+     * @param $TerminID id termina u kom je zauzeto mesto 
+     * @param $BrojSedista broj sedista koje je zauzeto 
+     * @param $Stanje stanje sedista 1-kupljeno 2-rezervisano
+     * 
+     * @return void
+     */    
     public function dodajMesto($TerminID,$BrojSedista, $Stanje)
     {
-        //$db=\Config\Database::connect();
-        $q=$this->db->query("SELECT max(MestoID) FROM mesto");
-        $results= $q->getResultArray();
-        $mestoID=$results[0]['max(MestoID)']+1;
+      //  $q=$this->db->query("SELECT max(MestoID) FROM mesto");
+      //  $results= $q->getResultArray();
+      //  $mestoID=$results[0]['max(MestoID)']+1;
         $data=array (
-                "MestoID"=>$mestoID,
+        //        "MestoID"=>$mestoID,
                 "TerminID"=> $TerminID,
                 "BrojSedista"=>$BrojSedista,
                 "Stanje"=>$Stanje
@@ -24,11 +50,17 @@ class MestoModel extends Model
         $builder=$this->db->table('mesto');
         $builder->insert($data);
     }
-
-    public function dodajRezervaciju($BrojSedista,$korisnikID)
+    /**
+     * Funkcija koja dodaje rezervaciju za korisnika na trazenom mestu 
+     * @param $terminID id termina u kom je zauzeto mesto 
+     * @param $BrojSedista broj sedista koje je zauzeto 
+     * @param $Stanje stanje sedista 1-kupljeno 2-rezervisano
+     * 
+     * @return void
+     */    
+    public function dodajRezervaciju($BrojSedista,$korisnikID, $terminID)
     {
-    //$db=\Config\Database::connect();
-    $q=$this->db->query("SELECT MestoID FROM mesto WHERE BrojSedista=$BrojSedista");
+    $q=$this->db->query("SELECT MestoID FROM mesto WHERE BrojSedista=$BrojSedista and TerminID=$terminID");
     $results= $q->getResultArray();
     $data=array (
         "KorisnikID"=>$korisnikID,
@@ -38,9 +70,14 @@ class MestoModel extends Model
     $builder->insert($data);
     }
 
+    /**
+     * Funkcija koja dohvata niz termina nad kojima korisnik ima rezervaciju 
+     * @param $korisnikID id korisnika
+     * 
+     * @return Array
+     */ 
     public function getRezervacijePoKorID($korisnikID)
     { 
-    //$db=\Config\Database::connect();
     $q=$this->db->query("SELECT DISTINCT termin.TerminID AS 'TerminID', film.Naziv AS 'Naziv', termin.Datum 
     AS 'Datum', termin.PocetakTermina AS 'Pocetak', termin.SalaID AS 'Sala' FROM termin 
     INNER JOIN mesto ON mesto.TerminID = termin.TerminID 
@@ -50,10 +87,15 @@ class MestoModel extends Model
     $results= $q->getResultArray();
     return($results);
     }
-    
+    /**
+     * Funkcija koja izvrsava potvrdu rezervacije nad odredjenim terminom za odredjenog korisnika  
+     * @param $korisnikID id korisnika
+     * @param $TerminID id termina;
+     * 
+     * @return $data vraca koliko je mesta imao korisnik u terminu
+     */
     public function potvrdaRezervacije($korisnikID, $TerminID)
     {
-        //$db=\Config\Database::connect();
         $q=$this->db->query("SELECT
         rezervacija.MestoID AS 'MestoID'
         FROM
@@ -63,7 +105,6 @@ class MestoModel extends Model
         WHERE rezervacija.KorisnikID=$korisnikID AND termin.TerminID=$TerminID");
         $results= $q->getResultArray();
         $data=count($results);
-        //print_r($results);
         foreach($results as $row)
         {
             $mID=$row['MestoID'];
@@ -72,9 +113,15 @@ class MestoModel extends Model
         }
         return $data;
     }
+    /**
+     * Funkcija koja izvrsava otkazivanje rezervacije nad odredjenim terminom za odredjenog korisnika  
+     * @param $korisnikID id korisnika
+     * @param $TerminID id termina;
+     * 
+     * @return $data vraca koliko je mesta imao korisnik u terminu
+     */
     public function izbrisiRezervacije($korisnikID, $TerminID)
     {
-        //$db=\Config\Database::connect();
         $q=$this->db->query("SELECT
         rezervacija.MestoID AS 'MestoID'
         FROM
@@ -84,16 +131,32 @@ class MestoModel extends Model
         WHERE rezervacija.KorisnikID=$korisnikID AND termin.TerminID=$TerminID");
         $results= $q->getResultArray();
         $data=count($results);
-        //print_r($results);
-        //$this->db->query("DELETE FROM `mesto` WHERE `mesto`.`MestoID` = 2;");
         foreach($results as $row)
        {
             $mID=$row['MestoID'];
             $builder=$this->db->table('mesto');
             print_r($builder->delete(['MestoID'=>$mID]));
-           // $builder->delete(['MestoID'=>$mID]);
-            //$this->db->query("DELETE FROM mesto WHERE MestoID=$mID");
         }
         return $data;
+    }
+
+    /**
+     * Funkcija koja izvrsava provereu da li su mesta slobodna u odredjenom terminu   
+     * @param $polja niz polja za koje je potrebna provera
+     * @param $terminID id termina;
+     * 
+     * @return true/false 
+     */
+    public function slobodnaMesta($polja,$terminID)
+    {
+        foreach($polja as $polje)
+            {
+                $q=$this->db->query("SELECT * FROM mesto WHERE BrojSedista=$polje AND TerminID=$terminID");
+                $results= $q->getResultArray();
+                if (count($results)>0){
+                    return false;
+                }
+            }
+        return true;
     }
 }

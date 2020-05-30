@@ -4,17 +4,34 @@ use CodeIgniter\Model;
 
 class KorisnikModel extends Model
 {
+    /**
+     * @var $table - naziv tabele u bazi
+     */
     protected $table = 'loyalitykorisnik';
+    /**
+     * @var $primarykey - primarni kljuc tabele
+     */
     protected $primaryKey = 'KorisnikID';
+    /**
+     * @var $returntype - povratna vrednost upita
+     */
     protected $returnType = 'object';
+    /**
+     * @var $allowedFields - dozvoljena polja za modifikaciju
+     */
     protected $allowedFields = ['KorisnikID', 'BrojKartice'];
 
+    /**
+     * Funkcija koja izvrsava poroveru da li korisnik ima pravo na popust 
+     * @param $korisnikID id korisnika za kog se zahteva provera
+     *  
+     * 
+     * @return true/false 
+     */
     public function isLoyality($korisnikID)
     {
-        //$db=\Config\Database::connect();
         $q=$this->db->query("SELECT * FROM loyalitykorisnik where KorisnikID=$korisnikID");
         $results= $q->getResultArray();
-        //print_r(count($results));
          if (count($results)==0)
         {
             return false;
@@ -23,15 +40,17 @@ class KorisnikModel extends Model
         {
             return true;
         }
-        //za sad imam korisnik ID kad se uradi baza stavi po korisnickom imenu
     }
-
-    public function isKorisnik($korisnikID)
+    /**
+     * Funkcija koja izvrsava poroveru da li korisnik postoji u bazi
+     * @param $korisnikID id korisnika za kog se zahteva provera
+     * 
+     * @return true/false 
+     */
+    public function isKorisnik($korIme)
     {
-        //$db=\Config\Database::connect();
-        $q=$this->db->query("SELECT * FROM korisnik where KorisnikID=$korisnikID");
+        $q=$this->db->query("SELECT * FROM korisnik where KorIme='$korIme'");
         $results= $q->getResultArray();
-        //print_r(count($results));
          if (count($results)==0)
         {
             return false;
@@ -41,5 +60,17 @@ class KorisnikModel extends Model
             return true;
         }
 
+    }
+    /**
+     * Funkcija koja dohvati korisnikID na osnovu korIme
+     * @param $korIme ime korisnika 
+     * 
+     * @return true/false 
+     */
+    public function getKorID($korIme)
+    {
+        $q=$this->db->query("SELECT KorisnikID FROM korisnik where KorIme='$korIme'");
+        $results=$q->getRowArray();
+        return $results['KorisnikID'];
     }
 }
