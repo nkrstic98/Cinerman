@@ -38,7 +38,7 @@
         </script>
 
     </head>
-    <body>
+    <body style="overflow-x: hidden;">
         <div class="container-fluid bg-dark">
             <div class="row vh-100">
                 <div class="col-sm-12 d-flex justify-content-center align-items-center bg-white text-center">

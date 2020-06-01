@@ -28,6 +28,8 @@ class FrontPage extends BaseController{
         $_POST['filmoviZaSedamDana'] = $filmoviZaSedamDana;
         $_POST['terminiZaFilmove'] = $terminiZaFilmove;
 
+        
         echo view('pages/frontPage');
+        echo view("templates/footer_front");
     }
 }

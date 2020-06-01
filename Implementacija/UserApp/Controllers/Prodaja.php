@@ -36,7 +36,8 @@ class Prodaja extends BaseController
             $data['sala']=$t->getSala($tID);
             $data['sedista']=$t->getSedista($tID);
             $data['film']=$t->getFilm($tID);
-            $this->prikaz('ProdajaPrikaz',$data);
+            $data['cena']=$t->getCena($tID);
+            $this->prikaz('ProdajaPrikaz',$data); 
             
             echo view("templates/footer");
             $this->session->set('terminID', $tID);
@@ -66,6 +67,7 @@ class Prodaja extends BaseController
             $data['sala']=$t->getSala($tID);
             $data['sedista']=$t->getSedista($tID);
             $data['film']=$t->getFilm($tID);
+            $data['cena']=$t->getCena($tID);
             $this->prikaz('ProdajaPrikaz',$data);
             
             echo view("templates/footer");
@@ -144,4 +146,6 @@ class Prodaja extends BaseController
             print_r( $myJSON);
         }
     }
+
+    
 }

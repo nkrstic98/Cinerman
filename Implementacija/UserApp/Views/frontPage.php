@@ -202,7 +202,7 @@
                     <img src="http://localhost:8080/public/upload/starWars.jpg" alt="Los Angeles" width="1100" height="500">
                     </div>
                     <div class="carousel-item">
-                    <img src="http://localhost:8080/public/upload/WW84.jpg" alt="New York" width="1100" height="500">
+                    <img src="http://localhost:8080/public/upload/inception.jpg" alt="New York" width="1100" height="500">
                     </div>
                 </div>
 
