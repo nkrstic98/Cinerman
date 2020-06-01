@@ -4,6 +4,11 @@ use App\Models\RadnikModel;
 use App\Models\KorisnikInsertModel;
 use App\Models\LoyalityInsertModel;
 
+/**
+ * Lara Vukovic 2017/0319
+ * 
+ * Klasa za upravljanje radnikom
+ */
 class Radnik extends BaseController {
     
     

@@ -5,7 +5,11 @@ use App\Models\TerminModel;
 use App\Models\MestoModel;
 use App\Models\KorisnikModel;
 
-
+/**
+ * Damir Savic 2017/0240
+ * 
+ * Klasa za potvrdu rezervacije
+ */
 class PotvrdaRezervacija extends BaseController
 {
     /**

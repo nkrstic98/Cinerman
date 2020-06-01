@@ -163,7 +163,7 @@
   height: 5px;
 }
 </style>
-    <body>
+    <body style="overflow-x: hidden;">
         <nav class="navbar navbar-dark bg-dark">
             <span class="navbar-brand mb-0 h1" style="font-size: 30px;">Cinerman</span>
             <form class="form-inline my-2 my-lg-0" name="backLogoutform" action="<?= site_url("Radnik/vratiIzadji") ?>" method="post">

@@ -3,7 +3,11 @@ namespace App\Controllers;
 
 use App\Models\TerminModel;
 
-
+/**
+ * Damir Savic 2017/0240
+ * 
+ * Klasa za izbor termina
+ */
 class IzborTermina extends BaseController
 {
     /**

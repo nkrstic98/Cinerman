@@ -12,7 +12,7 @@
         <title>Log in</title>
     
     </head>
-    <body>
+    <body style="overflow-x: hidden;">
         <nav class="navbar navbar-dark bg-dark">
             <span class="navbar-brand mb-0 h1" style="font-size: 30px;">Cinerman</span>
         </nav>

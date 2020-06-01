@@ -2,6 +2,9 @@
 
 use CodeIgniter\Model;
 
+/**
+ * Damir Savic 2017/0240
+ */
 class KorisnikModel extends Model
 {
     /**
