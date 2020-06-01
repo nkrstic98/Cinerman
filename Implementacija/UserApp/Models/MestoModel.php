@@ -2,13 +2,27 @@
 
 use CodeIgniter\Model;
 
+/**
+ * Damir Savic 2017/0240
+ * 
+ * Klasa koja sluzi za rad sa informacijama iz tabele mesto
+ * 
+ * @version 1
+ */
 class MestoModel extends Model
 {
     protected $table = 'mesto';
     protected $primaryKey = 'MestoID';
     protected $returnType = 'object';
     protected $allowedFields = ['MestoID', 'TerminID', 'BrojSedista','Stanje'];
-
+/**
+     * Funkcija koja dodaje mesto u bazu podataka
+     * @param $TerminID id termina u kom je zauzeto mesto 
+     * @param $BrojSedista broj sedista koje je zauzeto 
+     * @param $Stanje stanje sedista 1-kupljeno 2-rezervisano
+     * 
+     * @return void
+     */    
     public function dodajMesto($TerminID,$BrojSedista, $Stanje)
     {
         //$db=\Config\Database::connect();
@@ -24,7 +38,14 @@ class MestoModel extends Model
         $builder=$this->db->table('mesto');
         $builder->insert($data);
     }
-
+/**
+     * Funkcija koja dodaje rezervaciju za korisnika na trazenom mestu 
+     * @param $terminID id termina u kom je zauzeto mesto 
+     * @param $BrojSedista broj sedista koje je zauzeto 
+     * @param $Stanje stanje sedista 1-kupljeno 2-rezervisano
+     * 
+     * @return void
+     */   
     public function dodajRezervaciju($BrojSedista,$korisnikID)
     {
     //$db=\Config\Database::connect();
@@ -37,7 +58,12 @@ class MestoModel extends Model
     $builder=$this->db->table('rezervacija');
     $builder->insert($data);
     }
-
+/**
+     * Funkcija koja dohvata niz termina nad kojima korisnik ima rezervaciju 
+     * @param $korisnikID id korisnika
+     * 
+     * @return Array
+     */ 
     public function getRezervacijePoKorID($korisnikID)
     { 
     //$db=\Config\Database::connect();
@@ -50,7 +76,13 @@ class MestoModel extends Model
     $results= $q->getResultArray();
     return($results);
     }
-    
+    /**
+     * Funkcija koja izvrsava potvrdu rezervacije nad odredjenim terminom za odredjenog korisnika  
+     * @param $korisnikID id korisnika
+     * @param $TerminID id termina;
+     * 
+     * @return $data vraca koliko je mesta imao korisnik u terminu
+     */
     public function potvrdaRezervacije($korisnikID, $TerminID)
     {
         //$db=\Config\Database::connect();
@@ -72,6 +104,13 @@ class MestoModel extends Model
         }
         return $data;
     }
+    /**
+     * Funkcija koja izvrsava otkazivanje rezervacije nad odredjenim terminom za odredjenog korisnika  
+     * @param $korisnikID id korisnika
+     * @param $TerminID id termina;
+     * 
+     * @return $data vraca koliko je mesta imao korisnik u terminu
+     */
     public function izbrisiRezervacije($korisnikID, $TerminID)
     {
         //$db=\Config\Database::connect();
@@ -96,6 +135,13 @@ class MestoModel extends Model
         }
         return $data;
     }
+     /**
+     * Funkcija koja izvrsava provereu da li su mesta slobodna u odredjenom terminu   
+     * @param $polja niz polja za koje je potrebna provera
+     * @param $terminID id termina;
+     * 
+     * @return true/false 
+     */
     public function areFree($TerminID,$polja)
     {
         foreach($polja as $polje)

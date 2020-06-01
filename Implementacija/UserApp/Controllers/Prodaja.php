@@ -7,12 +7,22 @@ use App\Models\KorisnikModel;
 
 class Prodaja extends BaseController
 {
-
+    /**
+     * Funkcija koja se poziva da bi se iscrtao odredjeni view
+     * @param $page-view koji treba da se pozove
+     * @param $data-niz podataka koji se prosledjuje stranici
+     * 
+     * @return void 
+     */
     protected function prikaz($page,$data)
     {
         echo view($page,$data);
     }
-
+    /**
+     * Funkcija koja sluzi za prikaz Viewa index
+     * 
+     * @return void 
+     */
     public function index()
     {
         if (isset($_POST['terminID']))
@@ -76,6 +86,11 @@ class Prodaja extends BaseController
             echo 'error';
         }
     }
+    /**
+     * Funkcija koja izvrsava poroveru i kupovinu izabranih polja u izabranom terminu
+     * 
+     * @return void 
+     */
     public function Placanje()
     {
         $m= new MestoModel();
@@ -117,6 +132,11 @@ class Prodaja extends BaseController
 
         }
     }
+     /**
+     * Funkcija koja izvrsava poroveru i rezervaciju izabranih polja u izabranom terminu
+     * 
+     * @return void 
+     */
     public function Rezervisi()
     {
         $m= new MestoModel();

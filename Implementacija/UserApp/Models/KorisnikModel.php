@@ -4,6 +4,7 @@ use CodeIgniter\Model;
 
 /**
  * Nikola Krstic 2017/0265
+ * Damir Savic 2017/0240
  * 
  * Klasa koja sluzi za rad sa informacijama iz tabele korisnik
  * 
@@ -34,7 +35,13 @@ class KorisnikModel extends Model
         'email',
         'Lozinka'
     ];
-
+/**
+     * Funkcija koja izvrsava poroveru da li korisnik ima pravo na popust 
+     * @param $korisnikID id korisnika za kog se zahteva provera
+     *  
+     * 
+     * @return true/false 
+     */
     public function isLoyality($korisnikID)
     {
         //$db=\Config\Database::connect();
@@ -51,7 +58,12 @@ class KorisnikModel extends Model
         }
         //za sad imam korisnik ID kad se uradi baza stavi po korisnickom imenu
     }
-
+/**
+     * Funkcija koja izvrsava poroveru da li korisnik postoji u bazi
+     * @param $korisnikID id korisnika za kog se zahteva provera
+     * 
+     * @return true/false 
+     */
     public function isKorisnik($korisnikID)
     {
         //$db=\Config\Database::connect();

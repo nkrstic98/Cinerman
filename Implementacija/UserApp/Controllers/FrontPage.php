@@ -5,7 +5,19 @@ use App\Models\FilmModel;
 use App\Models\TerminModel;
 use CodeIgniter\I18n\Time;
 
+/**
+ * Ivan Rakonjac 2017/0656
+ * 
+ * FrontPage - pocetna stranica bioskopa
+ * 
+ * @version 14673625871645873465874365874165834276587243676348
+ */
+
 class FrontPage extends BaseController{
+
+    /**
+     * Funkcija koja se poziva da bi se iscratao FrontPage
+     */
     public function index(){
 
         $terminModel = new TerminModel();
