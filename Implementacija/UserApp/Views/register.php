@@ -15,7 +15,7 @@
         <!-- Latest compiled JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
 
-        <title>Cinerman Admin</title>
+        <title>Cinerman bioskop</title>
 
         <script>
             // Disable form submissions if there are invalid fields
