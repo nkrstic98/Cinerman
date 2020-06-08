@@ -1,0 +1,716 @@
+{
+  "id": "5c4afe54-d288-4e6c-80cc-b115b365f1c5",
+  "version": "2.0",
+  "name": "UserAppLogIn",
+  "url": "http://localhost:8080/index.php/Korisnik/register",
+  "tests": [{
+    "id": "0b1b2de0-e9e3-4874-b72c-e27d3905c0bc",
+    "name": "Login",
+    "commands": [{
+      "id": "277916f6-40f0-4778-ae27-357165cc79ea",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/index.php/Korisnik/login",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "71c11447-391a-4d79-92f8-ed148dac0836",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e128f92a-b93f-4d43-aadb-af5d08dde37e",
+      "comment": "",
+      "command": "click",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1aba3b64-c446-430f-9e4c-d5993f2191cc",
+      "comment": "",
+      "command": "type",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "lkds"
+    }, {
+      "id": "abbcce76-0c9f-4b4b-8b05-579ff4f1d170",
+      "comment": "",
+      "command": "mouseDownAt",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": "21.27496337890625,16.699981689453125"
+    }, {
+      "id": "ae2e4b7b-d4ea-4189-82e9-0d790f41051b",
+      "comment": "",
+      "command": "mouseMoveAt",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": "21.27496337890625,16.699981689453125"
+    }, {
+      "id": "fe2ee6ed-222e-4ee8-9a59-ee63e4b41b83",
+      "comment": "",
+      "command": "mouseUpAt",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": "21.27496337890625,16.699981689453125"
+    }, {
+      "id": "e76a9065-5507-4a0d-90c7-7cfcd88c2479",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1a1ba88a-cfb4-4a8d-a557-4628e340f1ae",
+      "comment": "",
+      "command": "click",
+      "target": "id=pwd",
+      "targets": [
+        ["id=pwd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pwd", "css:finder"],
+        ["xpath=//input[@id='pwd']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bf840376-ac70-422c-8927-39698c174b0c",
+      "comment": "",
+      "command": "type",
+      "target": "id=pwd",
+      "targets": [
+        ["id=pwd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pwd", "css:finder"],
+        ["xpath=//input[@id='pwd']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "das"
+    }, {
+      "id": "6921a1a4-888d-4684-a6f0-f059ce17390b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "17cc613f-49d6-416e-9a42-39d2e2e55a52",
+      "comment": "",
+      "command": "click",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e8eb46a8-8419-40ca-9db7-17965307a2ac",
+      "comment": "",
+      "command": "click",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3cb8da8e-78ef-4b3a-b94d-973f272fe25f",
+      "comment": "",
+      "command": "doubleClick",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "50de305f-8207-4166-8af2-1adb9d2464d3",
+      "comment": "",
+      "command": "type",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "laravukovic@gmail.com"
+    }, {
+      "id": "50cd33d2-bfe4-40b6-8bfa-c4ac9c3287b4",
+      "comment": "",
+      "command": "click",
+      "target": "id=pwd",
+      "targets": [
+        ["id=pwd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pwd", "css:finder"],
+        ["xpath=//input[@id='pwd']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "93df47bf-23d9-4eda-ac14-05ebc9da74d2",
+      "comment": "",
+      "command": "type",
+      "target": "id=pwd",
+      "targets": [
+        ["id=pwd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pwd", "css:finder"],
+        ["xpath=//input[@id='pwd']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "20e1111f-4e46-464c-986c-797f30741979",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "48850d29-c631-4adf-8044-75ed822f4fba",
+      "comment": "",
+      "command": "click",
+      "target": "id=pwd",
+      "targets": [
+        ["id=pwd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pwd", "css:finder"],
+        ["xpath=//input[@id='pwd']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c08cde8a-63a9-48e0-bca9-2e90cb72e11c",
+      "comment": "",
+      "command": "type",
+      "target": "id=pwd",
+      "targets": [
+        ["id=pwd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pwd", "css:finder"],
+        ["xpath=//input[@id='pwd']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "12345"
+    }, {
+      "id": "10595d5c-94fa-49b0-941d-e1554f89befd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Uloguj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "aae061c5-edf5-4c69-bc6d-d86b79f58abe",
+    "name": "ZaboravljenaLozinka",
+    "commands": [{
+      "id": "108f2057-fb90-497d-a7b5-de47e82c35e4",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/index.php/Korisnik/recoverPass",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7f763735-8072-4b9e-9d73-28557631b168",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1536x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3bdea7fe-0623-49d3-b456-db2820c00864",
+      "comment": "",
+      "command": "click",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c84e7cf1-6da3-4534-81f5-87174a4def0a",
+      "comment": "",
+      "command": "type",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Lara"
+    }, {
+      "id": "c4518afc-ac23-4c4d-b8c5-aad72f4e4a15",
+      "comment": "",
+      "command": "type",
+      "target": "id=lname",
+      "targets": [
+        ["id=lname", "id"],
+        ["name=lname", "name"],
+        ["css=#lname", "css:finder"],
+        ["xpath=//input[@id='lname']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "Vukovic"
+    }, {
+      "id": "de506027-5573-4f33-bd1f-b32ad06e3460",
+      "comment": "",
+      "command": "click",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "925eccbf-defe-456e-8384-9f15462db88a",
+      "comment": "",
+      "command": "type",
+      "target": "id=email",
+      "targets": [
+        ["id=email", "id"],
+        ["name=email", "name"],
+        ["css=#email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "laravukovic@gmail.com"
+    }, {
+      "id": "c49fd553-fe6c-42ba-a920-de8c52adb669",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Resetovanje lozinke')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "93d05b1b-4654-4b54-8341-bfdc900cb0c1",
+      "comment": "",
+      "command": "click",
+      "target": "id=pswd",
+      "targets": [
+        ["id=pswd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pswd", "css:finder"],
+        ["xpath=//input[@id='pswd']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "cbf4795e-f5d8-4db5-94c3-c67f1a910ec2",
+      "comment": "",
+      "command": "type",
+      "target": "id=pswd",
+      "targets": [
+        ["id=pswd", "id"],
+        ["name=pswd", "name"],
+        ["css=#pswd", "css:finder"],
+        ["xpath=//input[@id='pswd']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "12345"
+    }, {
+      "id": "58fca585-51c7-4036-bca9-0ac8f254f7f5",
+      "comment": "",
+      "command": "type",
+      "target": "id=pswdC",
+      "targets": [
+        ["id=pswdC", "id"],
+        ["name=pswdC", "name"],
+        ["css=#pswdC", "css:finder"],
+        ["xpath=//input[@id='pswdC']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "12345"
+    }, {
+      "id": "04a5b2d1-23a4-4897-833b-e91118486009",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(3)",
+      "targets": [
+        ["css=.btn:nth-child(3)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Promena lozinke')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "08f2c68a-8870-4464-b0de-6cdea218c5f1",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Zaboravljena lozinka?",
+      "targets": [
+        ["linkText=Zaboravljena lozinka?", "linkText"],
+        ["css=.text-left > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Zaboravljena lozinka?')]", "xpath:link"],
+        ["xpath=//a[@href='http://localhost:8080/index.php/Korisnik/recoverPass']", "xpath:href"],
+        ["xpath=//div[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Zaboravljena lozinka?')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9a083da9-a2b2-41e9-8071-14c3e1aed816",
+      "comment": "",
+      "command": "click",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1aac2d5d-7939-45a6-8ffe-775d21ff0d34",
+      "comment": "",
+      "command": "click",
+      "target": "css=.d-flex",
+      "targets": [
+        ["css=.d-flex", "css:finder"],
+        ["xpath=//div/div/div", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "07740b15-09d5-4997-8532-41aa618ad43c",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn:nth-child(4)",
+      "targets": [
+        ["css=.btn:nth-child(4)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//div/div/div/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Resetovanje lozinke')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "3751c3be-86b2-492a-8fb4-41f5f2d60409",
+    "name": "RegistrovanjeKorisnika",
+    "commands": [{
+      "id": "97214bd2-ab29-4984-90d2-2afe43ed3e57",
+      "comment": "",
+      "command": "open",
+      "target": "http://localhost:8080/index.php/Korisnik/register",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9a645fb2-667f-4295-a378-9751fc4ff286",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1936x1056",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5c71dcf2-7d4c-464c-8de0-432dd2d62563",
+      "comment": "",
+      "command": "click",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d27280ad-90b3-4623-a6a8-2d1830b2a0a6",
+      "comment": "",
+      "command": "type",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Novi"
+    }, {
+      "id": "52c72813-45d8-4127-86d9-dfcdae5b9e2d",
+      "comment": "",
+      "command": "type",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Novi"
+    }, {
+      "id": "921dcd9e-31c0-4870-bf18-a109521d4360",
+      "comment": "",
+      "command": "sendKeys",
+      "target": "id=name",
+      "targets": [
+        ["id=name", "id"],
+        ["name=name", "name"],
+        ["css=#name", "css:finder"],
+        ["xpath=//input[@id='name']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "${KEY_ENTER}"
+    }, {
+      "id": "f1e0dbfc-87f7-4bdb-a6de-04650ae8aed7",
+      "comment": "",
+      "command": "type",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "laravukovic@gmail.com"
+    }, {
+      "id": "7211db72-e8e4-4cfa-8940-de74da5ef284",
+      "comment": "",
+      "command": "type",
+      "target": "id=pswd",
+      "targets": [
+        ["id=pswd", "id"],
+        ["name=pswd", "name"],
+        ["css=.form-group:nth-child(4) > #pswd", "css:finder"],
+        ["xpath=//input[@id='pswd']", "xpath:attributes"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "04c1ae42-7a59-4f13-929c-98a05e377a6f",
+      "comment": "",
+      "command": "type",
+      "target": "name=pswdC",
+      "targets": [
+        ["name=pswdC", "name"],
+        ["css=.form-group:nth-child(5) > #pswd", "css:finder"],
+        ["xpath=(//input[@id='pswd'])[2]", "xpath:attributes"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "c0889b6d-6f8a-4267-894c-994420d0c09a",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Registruj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "67ab4180-8748-440b-89ba-460207769af7",
+      "comment": "",
+      "command": "click",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7ae00706-430f-43f2-9170-f4429cf84887",
+      "comment": "",
+      "command": "type",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "n@n.com"
+    }, {
+      "id": "bd0cc3b8-a87b-422d-a9eb-9c310c0e8dd3",
+      "comment": "",
+      "command": "type",
+      "target": "id=pswd",
+      "targets": [
+        ["id=pswd", "id"],
+        ["name=pswd", "name"],
+        ["css=.form-group:nth-child(4) > #pswd", "css:finder"],
+        ["xpath=//input[@id='pswd']", "xpath:attributes"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "ab6066c3-9388-4ff7-a1f9-924027217b3d",
+      "comment": "",
+      "command": "type",
+      "target": "name=pswdC",
+      "targets": [
+        ["name=pswdC", "name"],
+        ["css=.form-group:nth-child(5) > #pswd", "css:finder"],
+        ["xpath=(//input[@id='pswd'])[2]", "xpath:attributes"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "12"
+    }, {
+      "id": "0c0e90bb-25b8-4c7b-a51d-d4be486f2e2b",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Registruj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "15fc0466-73fe-4009-be40-c272378bbd38",
+      "comment": "",
+      "command": "click",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "af44184d-a57f-404d-ba6c-a8d013ed513f",
+      "comment": "",
+      "command": "type",
+      "target": "id=uname",
+      "targets": [
+        ["id=uname", "id"],
+        ["name=uname", "name"],
+        ["css=#uname", "css:finder"],
+        ["xpath=//input[@id='uname']", "xpath:attributes"],
+        ["xpath=//div[3]/input", "xpath:position"]
+      ],
+      "value": "n@n.com"
+    }, {
+      "id": "ba1e21fe-b3d2-4773-bf7c-c89c26369cc1",
+      "comment": "",
+      "command": "type",
+      "target": "id=pswd",
+      "targets": [
+        ["id=pswd", "id"],
+        ["name=pswd", "name"],
+        ["css=.form-group:nth-child(4) > #pswd", "css:finder"],
+        ["xpath=//input[@id='pswd']", "xpath:attributes"],
+        ["xpath=//div[4]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "e17928c5-4ff6-47ad-ab20-9fba0f9f8ad5",
+      "comment": "",
+      "command": "type",
+      "target": "name=pswdC",
+      "targets": [
+        ["name=pswdC", "name"],
+        ["css=.form-group:nth-child(5) > #pswd", "css:finder"],
+        ["xpath=(//input[@id='pswd'])[2]", "xpath:attributes"],
+        ["xpath=//div[5]/input", "xpath:position"]
+      ],
+      "value": "123"
+    }, {
+      "id": "ca0e274f-778e-4205-9765-48fe9c81e7ca",
+      "comment": "",
+      "command": "click",
+      "target": "css=.btn-primary",
+      "targets": [
+        ["css=.btn-primary", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Registruj se')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "8fd137de-3739-4a98-9a37-dbd67604545b",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": []
+  }],
+  "urls": ["http://localhost:8080/index.php/Korisnik/login"],
+  "plugins": []
+}
