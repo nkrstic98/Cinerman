@@ -97,7 +97,7 @@ class Korisnik extends BaseController
     public function loginSubmit() {
         $kModel = new KorisnikModel();
 
-        $korisnik = $kModel->where('email', $this->request->getVar('uname'))->first();
+        $korisnik = $kModel->where('KorIme', $this->request->getVar('uname'))->first();
 
         if($korisnik == null) {
             return $this->login("Korisnik ne postoji", 1);
@@ -106,7 +106,8 @@ class Korisnik extends BaseController
         if($korisnik->Lozinka != $this->request->getVar('pswd')) {
             return $this->login("Pogresna lozinka", 2);
         }
-
+		
+		$this->session->set('KorIme', $korisnik->KorIme);
         $this->session->set('userName', $korisnik->email);
         $this->session->set('userPass', $korisnik->Lozinka);
         $this->session->set('userID', $korisnik->KorisnikID);
@@ -195,6 +196,10 @@ class Korisnik extends BaseController
         if(($novi->where('email', $this->request->getVar('uname'))->first()) != null) {
             return $this->register("Postoji nalog sa ovom e-mail adresom");
         }
+		
+		if(($novi->where('KorIme', $this->request->getvar('user'))->first()) != null) {
+            return $this->register("Korisnicko ime je zauzeto");
+        }
 
         if($this->request->getVar('pswd') != $this->request->getVar('pswdC')) {
             return $this->register("Lozinka i potvrda lozinke nisu iste");
@@ -219,7 +224,8 @@ class Korisnik extends BaseController
             'Ime' => $_POST["name"],
             'Prezime' => $_POST["lname"],
             'email' => $_POST["uname"],
-            'Lozinka' => $_POST["pswd"]
+            'Lozinka' => $_POST["pswd"],
+			'KorIme' => $_POST["user"]
         ];
 
         $novi->insert($data);

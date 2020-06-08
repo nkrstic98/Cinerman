@@ -62,6 +62,10 @@
                             </div>
                             <div class="form-group">
                                 <input type="email" class="form-control" id="uname" placeholder="E-mail" name="uname" required>
+                                <div class="invalid-feedback text-sm-left">E-mail ne sme biti prazno polje</div>
+                            </div>
+							<div class="form-group">
+                                <input type="text" class="form-control" id="user" placeholder="Korisnicko ime" name="user" required>
                                 <div class="invalid-feedback text-sm-left">Korisnicko ime ne sme biti prazno polje</div>
                             </div>
                             <div class="form-group">

@@ -33,7 +33,8 @@ class KorisnikModel extends Model
         'Ime',
         'Prezime',
         'email',
-        'Lozinka'
+        'Lozinka',
+		'KorIme'
     ];
 /**
      * Funkcija koja izvrsava poroveru da li korisnik ima pravo na popust 
